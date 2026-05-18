@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valuebet Scanner + Tracker V36</title>
+  <meta name="theme-color" content="#050712" />
+  <meta name="application-name" content="Valuebet Scanner" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+  :root{
+    --bg:#f8fafc;
+    --bg2:#eef4ff;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#dbe4f0;
+    --soft:#f1f5f9;
+    --accent:#2563eb;
+    --accent-dark:#1d4ed8;
+    --accent-soft:#dbeafe;
+    --teal:#14b8a6;
+    --good:#0f766e;
+    --bad:#dc2626;
+    --warn:#b45309;
+    --nav:#020617;
+    --nav2:#0f172a;
+    --shadow:0 16px 36px rgba(15,23,42,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(circle at top left,var(--bg2),var(--bg) 36%,#fff 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:14px;line-height:1.35}
+  .app{max-width:1380px;margin:0 auto;padding:18px}
+  .topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:16px;background:linear-gradient(135deg,var(--nav),var(--nav2));border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow)}
+  .brand h1{font-size:23px;margin:0;color:#fff;letter-spacing:-.02em}.brand div{color:#cbd5e1;margin-top:4px}.brand:before{content:"";display:inline-block;width:10px;height:10px;border-radius:999px;background:var(--teal);box-shadow:0 0 0 5px rgba(20,184,166,.16);margin-right:8px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{padding:10px 14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#e2e8f0;border-radius:999px;cursor:pointer;font-weight:800}.tab:hover{background:rgba(255,255,255,.12)}.tab.active{background:#fff;color:var(--nav)}
+  .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(15,23,42,.04);backdrop-filter:blur(8px)}
+  h2{letter-spacing:-.02em}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}.field label{font-weight:800;font-size:12px;color:#334155}.field input,.field select,.field textarea{padding:10px 11px;border:1px solid var(--border);border-radius:12px;background:#fff;min-width:180px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}.field textarea{min-height:82px}
+  .btn{padding:10px 14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:white;cursor:pointer;font-weight:800;box-shadow:0 8px 18px rgba(37,99,235,.18)}.btn:hover{filter:brightness(.98);transform:translateY(-1px)}.btn.secondary{background:#fff;color:var(--text);border:1px solid var(--border);box-shadow:none}.btn.good{background:linear-gradient(135deg,var(--teal),var(--good))}.btn.bad{background:linear-gradient(135deg,#ef4444,var(--bad))}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.status{padding:12px;border-radius:13px;background:#fff;border:1px solid var(--border);color:#334155}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.metric{background:#fff;border:1px solid var(--border);border-radius:16px;padding:13px;box-shadow:0 8px 18px rgba(15,23,42,.035)}.metric span{display:block;color:var(--muted);font-size:12px;font-weight:700}.metric strong{font-size:23px;display:block;margin-top:4px;letter-spacing:-.02em}
+  .checkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;max-height:420px;overflow:auto;padding:4px}.checkitem{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--border);border-radius:13px;background:#fff;padding:9px}.checkitem .left{display:flex;align-items:center;gap:8px}.badge{font-size:11px;padding:3px 7px;border-radius:999px;background:var(--soft);color:#334155;white-space:nowrap}.badge.good{background:#ccfbf1;color:#115e59}.badge.bad{background:#fee2e2;color:#991b1b}.badge.auto{background:var(--accent-soft);color:#1d4ed8}
+  .tablewrap{overflow:auto;background:#fff;border:1px solid var(--border);border-radius:18px;box-shadow:0 10px 28px rgba(15,23,42,.045)}table{width:100%;border-collapse:separate;border-spacing:0;min-width:1120px}th,td{padding:9px 10px;border-bottom:1px solid #edf2f7;text-align:left;white-space:nowrap;vertical-align:middle}th{background:#f8fafc;position:sticky;top:0;z-index:2;font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.03em}tr:hover td{background:#fbfdff}.ev{font-weight:900;color:var(--accent)}.pos{color:var(--good);font-weight:900}.neg{color:var(--bad);font-weight:900}.link{color:var(--accent);text-decoration:none;font-weight:800}.link:hover{text-decoration:underline}
+  .cards{display:none}.betcard{background:#fff;border:1px solid var(--border);border-radius:17px;padding:13px;margin-bottom:10px;box-shadow:0 8px 18px rgba(15,23,42,.04)}.betcard .evbig{font-size:24px;font-weight:950;color:var(--accent);letter-spacing:-.02em}.muted{color:var(--muted)}.hidden{display:none!important}.tiny{font-size:12px;color:var(--muted)}
+  .modal{position:fixed;inset:0;background:rgba(2,6,23,.55);display:none;align-items:center;justify-content:center;padding:14px;z-index:20}.modal.show{display:flex}.modalbox{background:#fff;border:1px solid var(--border);border-radius:20px;padding:18px;max-width:980px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 28px 80px rgba(2,6,23,.28)}
+  .apiwrap{display:flex;gap:8px}.apiwrap input{flex:1}.eye{min-width:46px;padding:10px;border:1px solid var(--border);background:#fff;border-radius:12px;cursor:pointer}.oddsbox{width:96px;min-width:96px!important;padding:8px 9px!important}.trackbox{display:flex;gap:6px;align-items:center}.trackbox .btn{padding:8px 10px}.iconbtn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--text);cursor:pointer;margin-right:4px;font-size:16px}.iconbtn:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}.iconbtn.danger:hover{border-color:var(--bad);box-shadow:0 0 0 3px rgba(220,38,38,.1)}
+  @media(max-width:760px){.topbar{align-items:flex-start;flex-direction:column;border-radius:16px}.tablewrap{display:none}.cards{display:block}.field input,.field select,.field textarea{min-width:100%;width:100%}.row{display:block}.btn{width:100%;margin-top:6px}.tab{flex:1;text-align:center}.app{padding:10px}.brand h1{font-size:20px}.trackbox{display:grid;grid-template-columns:1fr auto}.trackbox .btn{width:auto;margin:0}}
+
+
+/* ============================================================
+   V6 THEME OVERRIDE - Odds-API.io inspired dark mobile UI
+   ============================================================ */
+:root{
+  --bg:#050712;
+  --bg2:#090d19;
+  --card:#0b111f;
+  --card2:#101827;
+  --text:#f8fafc;
+  --muted:#8b92a6;
+  --border:#20283a;
+  --soft:#121a2a;
+  --accent:#8b5cf6;
+  --accent-dark:#6d28d9;
+  --accent-soft:rgba(139,92,246,.18);
+  --pink:#ec3d7c;
+  --purple:#8b5cf6;
+  --blue:#60a5fa;
+  --teal:#36d399;
+  --good:#22c55e;
+  --bad:#ef4444;
+  --warn:#a3aab8;
+  --nav:#050712;
+  --nav2:#090d19;
+  --shadow:0 22px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  background:
+    radial-gradient(circle at 80% -10%, rgba(236,61,124,.18), transparent 25%),
+    radial-gradient(circle at 15% -5%, rgba(139,92,246,.15), transparent 28%),
+    linear-gradient(180deg,var(--bg),#040611 55%,#03050d 100%) !important;
+  color:var(--text) !important;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  font-size:15px;
+}
+.app{max-width:1420px;padding:22px 18px 34px}
+.topbar{
+  background:rgba(6,10,22,.92) !important;
+  border:1px solid rgba(49,58,82,.78) !important;
+  border-radius:26px !important;
+  box-shadow:0 18px 60px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.035) !important;
+  padding:18px 20px !important;
+}
+.brand h1{font-size:30px !important;color:#fff !important;font-weight:900;letter-spacing:-.04em}.brand div{color:#8b92a6 !important}.brand:before{background:linear-gradient(135deg,var(--purple),var(--pink)) !important;box-shadow:0 0 0 6px rgba(139,92,246,.16) !important}
+.tabs{gap:10px}.tab{
+  border:1px solid #252d42 !important;
+  background:#090e1a !important;
+  color:#8f96aa !important;
+  border-radius:18px !important;
+  padding:12px 16px !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+.tab.active{
+  color:#dcb6ff !important;
+  background:linear-gradient(180deg,rgba(139,92,246,.20),rgba(139,92,246,.08)) !important;
+  border:2px solid var(--purple) !important;
+  box-shadow:0 0 0 4px rgba(139,92,246,.12), 0 0 22px rgba(139,92,246,.22) !important;
+}
+.card,.metric,.betcard,.tablewrap,.status,.modalbox{
+  background:rgba(11,17,31,.94) !important;
+  border:1px solid #20283a !important;
+  color:var(--text) !important;
+  box-shadow:0 18px 48px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+.card{border-radius:26px !important;padding:18px !important}.metric{border-radius:20px}.metric span,.muted,.tiny,.field label{color:#8b92a6 !important}.metric strong{color:#fff}.status{background:#0e1524 !important;color:#b8c0d4 !important;border-radius:18px !important}
+h2{color:#fff;font-weight:900;letter-spacing:-.04em}
+.field input,.field select,.field textarea,.apiwrap input,.oddsbox{
+  color:#f8fafc !important;
+  background:#090f1b !important;
+  border:1px solid #252d42 !important;
+  border-radius:16px !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.field input::placeholder,.field textarea::placeholder,.oddsbox::placeholder{color:#697186}
+.field input:focus,.field select:focus,.field textarea:focus,.oddsbox:focus{border-color:var(--purple)!important;box-shadow:0 0 0 4px rgba(139,92,246,.15)!important}
+.btn{
+  background:linear-gradient(135deg,var(--purple),var(--pink)) !important;
+  border:0 !important;
+  border-radius:18px !important;
+  color:#fff !important;
+  box-shadow:0 12px 30px rgba(139,92,246,.25), 0 6px 18px rgba(236,61,124,.14) !important;
+}
+.btn.secondary{
+  background:#0d1423 !important;
+  color:#d6dbeb !important;
+  border:1px solid #293248 !important;
+  box-shadow:none !important;
+}
+.btn.good{background:linear-gradient(135deg,#22c55e,#16a34a)!important}.btn.bad{background:linear-gradient(135deg,#ef4444,#dc2626)!important}
+.checkitem{background:#0b111f!important;border:1px solid #20283a!important;border-radius:18px!important;color:#d8deef!important}.checkitem:hover{border-color:#35415e!important}
+.checkitem input{accent-color:var(--purple)}
+.badge{background:#151d2d!important;color:#9fa7bb!important;border:1px solid #293248}.badge.good{background:rgba(34,197,94,.15)!important;color:#86efac!important;border-color:rgba(34,197,94,.32)}.badge.bad{background:rgba(239,68,68,.13)!important;color:#fca5a5!important;border-color:rgba(239,68,68,.30)}.badge.auto{background:rgba(139,92,246,.16)!important;color:#d8b4fe!important;border-color:rgba(139,92,246,.35)}
+table{color:#dbe3f5}th{background:#090f1b!important;color:#868fa5!important;border-bottom:1px solid #20283a!important}td{border-bottom:1px solid #171f31!important}tr:hover td{background:#0f1728!important}.ev{color:#d67aff!important}.pos{color:#60e98a!important}.neg{color:#ff6b7c!important}.link{color:#c084fc!important}.link:hover{color:#f0abfc!important}
+.eye,.iconbtn{
+  background:#0b111f!important;
+  border:1px solid #293248!important;
+  color:#cbd5e1!important;
+  border-radius:14px!important;
+}
+.iconbtn:hover{border-color:var(--purple)!important;box-shadow:0 0 0 4px rgba(139,92,246,.14)!important;color:#fff!important}.iconbtn.danger:hover{border-color:#ef4444!important;box-shadow:0 0 0 4px rgba(239,68,68,.14)!important}
+.quickstatus{display:inline-flex;gap:5px;margin-right:6px;vertical-align:middle}.statusbtn{width:31px;height:31px;border-radius:11px;border:1px solid #2a3348;background:#0b111f;color:#aab3c7;font-weight:950;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.statusbtn.win{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.38);color:#86efac}.statusbtn.loss{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.38);color:#fca5a5}.statusbtn.push{background:rgba(148,163,184,.12);border-color:rgba(148,163,184,.30);color:#cbd5e1}.statusbtn.active{box-shadow:0 0 0 3px rgba(139,92,246,.20);border-color:#a855f7;color:#fff}.statuspill{display:inline-flex;align-items:center;justify-content:center;min-width:56px;padding:5px 9px;border-radius:999px;background:#151d2d;border:1px solid #293248;color:#aeb7ca;font-weight:900}.statuspill.win{background:rgba(34,197,94,.14);color:#86efac;border-color:rgba(34,197,94,.35)}.statuspill.loss{background:rgba(239,68,68,.14);color:#fca5a5;border-color:rgba(239,68,68,.35)}.statuspill.push{background:rgba(148,163,184,.12);color:#d1d5db;border-color:rgba(148,163,184,.3)}.statuspill.open{color:#a78bfa;border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.12)}
+.betcard{border-radius:22px!important}.betcard .evbig{color:#e879f9!important}
+.modal{background:rgba(0,0,0,.66)!important;backdrop-filter:blur(8px)}.modalbox{border-radius:26px!important}
+@media(max-width:760px){.app{padding:12px 10px 28px}.topbar{border-radius:0 0 24px 24px;margin:-12px -10px 16px;padding:24px 18px!important}.brand h1{font-size:27px!important}.tabs{position:fixed;left:10px;right:10px;bottom:10px;z-index:10;background:rgba(5,7,18,.92);backdrop-filter:blur(16px);border:1px solid #20283a;border-radius:28px;padding:7px;box-shadow:0 -10px 40px rgba(0,0,0,.40)}.tab{border-radius:21px!important;font-size:13px;padding:12px 8px!important}.card{border-radius:24px!important}.metric strong{font-size:20px}.quickstatus{display:flex;margin:8px 0}.statusbtn{width:38px;height:34px}.iconbtn{width:38px;height:38px}.app{padding-bottom:92px}}
+
+
+
+/* ============================================================
+   V8 VISUAL DETAILS - sport icons, bookmaker badges, country flags
+   ============================================================ */
+.sportcell,.countrycell,.leaguecell{display:inline-flex;align-items:center;gap:7px}
+.sport-emoji,.flag-emoji{font-size:18px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
+.bookie-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:13px;border:1px solid #2a3348;background:#101827;color:#dbe3f5;font-weight:950;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);white-space:nowrap}
+.bookie-badge:before{content:"";width:8px;height:8px;border-radius:999px;background:#8b92a6;box-shadow:0 0 0 4px rgba(139,146,166,.10)}
+.bookie-slot-1{background:rgba(34,197,94,.105);border-color:rgba(34,197,94,.42);color:#a7f3d0}
+.bookie-slot-1:before{background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.16)}
+.bookie-slot-2{background:rgba(239,68,68,.105);border-color:rgba(239,68,68,.42);color:#fecaca}
+.bookie-slot-2:before{background:#ef4444;box-shadow:0 0 0 4px rgba(239,68,68,.16)}
+.bookie-slot-3{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.45);color:#ddd6fe}
+.bookie-slot-3:before{background:#8b5cf6;box-shadow:0 0 0 4px rgba(139,92,246,.16)}
+.bookie-slot-4{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.45);color:#bfdbfe}
+.bookie-slot-4:before{background:#60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.16)}
+.betcard-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.betcard-meta{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:6px 0}
+.meta-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #253149;background:#0a1020;border-radius:999px;padding:5px 9px;color:#cbd5e1;font-size:12px;font-weight:800}
+@media(max-width:760px){.bookie-badge{padding:5px 8px;border-radius:12px}.sport-emoji,.flag-emoji{font-size:17px}.betcard-head{align-items:flex-start}}
+
+
+/* ============================================================
+   V10 TAKEN STATE + SCANNER BREAKDOWNS
+   ============================================================ */
+.taken-badge,.not-taken-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:950;white-space:nowrap;border:1px solid #293248;background:#111827;color:#9ca3af;
+}
+.taken-badge{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.38);color:#86efac}
+.not-taken-badge{background:rgba(148,163,184,.08);border-color:rgba(148,163,184,.22);color:#aab3c7}
+.trackstate{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.summary-list{display:flex;flex-direction:column;gap:5px;margin-top:7px;font-size:12px;color:#cbd5e1;max-height:130px;overflow:auto;padding-right:4px}
+.summary-row{display:flex;justify-content:space-between;gap:10px;border-top:1px solid rgba(148,163,184,.12);padding-top:5px}
+.summary-row:first-child{border-top:none;padding-top:0}
+.summary-row span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ca3af}
+.summary-row strong{font-size:12px!important;margin:0!important;color:#fff!important}
+
+
+/* ============================================================
+   V11 SCANNER STATUS SUMMARY + ROBUST TAKEN MATCHING
+   ============================================================ */
+.scan-summary{font-size:12px;line-height:1.45;color:#b8c0d4}
+.scan-summary-title{font-size:13px;color:#f8fafc;font-weight:900;margin-bottom:4px}
+.scan-summary-line{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:3px 0}
+.scan-summary-line b{color:#f8fafc}
+.scan-summary-section{margin-top:6px;padding-top:6px;border-top:1px solid rgba(148,163,184,.12)}
+.scan-summary-topic{font-weight:950;color:#f8fafc;margin-right:5px}
+.scan-summary-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border:1px solid #293248;border-radius:999px;background:#0a1020;color:#cbd5e1;margin:2px 3px 2px 0;white-space:nowrap}
+.scan-summary-chip strong{font-size:11px;color:#fff;margin-left:2px}
+.trackbox .btn[disabled]{opacity:.48;cursor:not-allowed;filter:grayscale(.25)}
+.trackbox input[disabled]{opacity:.55}
+@media(max-width:760px){.scan-summary{font-size:11px}.scan-summary-title{font-size:12px}.scan-summary-chip{padding:2px 6px}}
+
+
+/* ============================================================
+   V12 SCANNER FILTERS + SETTINGS QUICK TOGGLES + DIAGNOSTICS
+   ============================================================ */
+.scanner-controls{margin-top:10px;padding-top:10px;border-top:1px solid rgba(148,163,184,.14)}
+.compact-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.compact-field{display:flex;flex-direction:column;gap:4px;min-width:150px}
+.compact-field label{font-size:11px;font-weight:900;color:#8b92a6;text-transform:uppercase;letter-spacing:.03em}
+.compact-field select,.compact-field input{color:#f8fafc;background:#090f1b;border:1px solid #252d42;border-radius:14px;padding:8px 10px;outline:none}
+.toggleline{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #252d42;border-radius:14px;background:#090f1b;color:#cbd5e1;font-weight:800}
+.toggleline input{accent-color:var(--purple)}
+.settings-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filter-note{margin-top:8px;color:#8b92a6;font-size:12px}
+.diag-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border:1px solid #293248;border-radius:999px;background:#101827;color:#cbd5e1;margin:2px 3px 2px 0;white-space:nowrap}
+.diag-chip b{color:#fff}
+.file-hidden{display:none!important}
+@media(max-width:760px){.compact-row{display:grid;grid-template-columns:1fr}.compact-field{min-width:100%}.toggleline{width:100%}.settings-actions .btn{width:auto;font-size:12px;padding:8px 10px}}
+
+
+/* ============================================================
+   V13 HIDDEN BETS + AUTO-SCAN + NEW BET POPUP
+   ============================================================ */
+.hidden-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:950;white-space:nowrap;border:1px solid rgba(245,158,11,.35);background:rgba(245,158,11,.12);color:#fbbf24;}
+.hide-bet-btn{padding:8px 10px!important;border-radius:14px!important;white-space:nowrap}.autoscan-panel{margin-top:10px;padding-top:10px;border-top:1px solid rgba(148,163,184,.14)}.autoscan-state{font-size:12px;color:#9ca3af;margin-top:6px}
+.popup{position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:60;padding:14px}.popup.show{display:flex}.popupbox{width:100%;max-width:780px;max-height:88vh;overflow:auto;background:#0b111f;border:1px solid #2b3550;border-radius:26px;box-shadow:0 32px 100px rgba(0,0,0,.55);padding:18px;color:#f8fafc}.popuphead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.popuphead h2{margin:0;font-size:22px}.popuphead .tiny{margin-top:4px}.popupclose{width:38px;height:38px;border-radius:14px;border:1px solid #293248;background:#101827;color:#cbd5e1;cursor:pointer;font-weight:900}
+.newbet{border:1px solid #253149;background:#090f1b;border-radius:18px;padding:12px;margin-bottom:10px}.newbet-title{font-weight:950;margin-bottom:4px}.newbet-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}.newbet-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.newbet-actions .btn{padding:8px 11px!important}.scan-summary-chip.warn{border-color:rgba(245,158,11,.32);background:rgba(245,158,11,.10);color:#fcd34d}
+@media(max-width:760px){.newbet-actions .btn{width:auto;margin:0}.popupbox{border-radius:22px}.popuphead h2{font-size:19px}}
+
+
+/* ============================================================
+   V14 AUTO-SCAN COUNTDOWN PROGRESS BAR
+   ============================================================ */
+.autoscan-progress{
+  height:6px;
+  width:100%;
+  margin-top:8px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(236,61,124,.10);
+  border:1px solid rgba(236,61,124,.18);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.22);
+}
+.autoscan-progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  box-shadow:0 0 16px rgba(236,61,124,.34);
+  transition:width .9s linear;
+}
+.autoscan-progress.off .autoscan-progress-fill{
+  width:0%!important;
+  opacity:.45;
+}
+
+
+/* ============================================================
+   V15 PWA INSTALL + ALERT OPTIONS
+   ============================================================ */
+.install-hint{font-size:12px;color:#8b92a6;margin-top:6px}
+.alert-options{margin-top:8px}
+.pwa-ready{border-color:rgba(236,61,124,.42)!important;box-shadow:0 0 0 3px rgba(236,61,124,.10)!important}
+@media(max-width:760px){.install-hint{font-size:11px}.alert-options{display:grid;grid-template-columns:1fr}}
+
+
+/* ============================================================
+   V16 TRACKER BULK UNTRACK + STRONGER VIBRATION FEEDBACK
+   ============================================================ */
+.bulk-danger{
+  background:linear-gradient(135deg,#ef4444,#b91c1c)!important;
+  color:#fff!important;
+  border:0!important;
+}
+.confirm-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;justify-content:flex-end}
+.confirm-actions .btn{min-width:96px}
+.confirm-note{color:#8b92a6;font-size:12px;margin-top:8px;line-height:1.45}
+.vibration-note{font-size:11px;color:#8b92a6;margin-top:4px}
+
+
+/* ============================================================
+   V17 REJECTED-BET ANALYSIS + DETECTED API MARKETS
+   ============================================================ */
+.diag-click{cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.diag-click:hover{transform:translateY(-1px);border-color:rgba(236,61,124,.55);background:rgba(236,61,124,.12)}
+.rejected-table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px}
+.rejected-wrap{overflow:auto;border:1px solid #253149;border-radius:18px;background:#090f1b;margin-top:10px}
+.rejected-reason{display:inline-flex;padding:3px 7px;border-radius:999px;font-size:11px;font-weight:950;border:1px solid #293248;background:#101827;color:#cbd5e1;white-space:nowrap}
+.rejected-reason.sport{border-color:rgba(96,165,250,.34);background:rgba(96,165,250,.10);color:#bfdbfe}
+.rejected-reason.market{border-color:rgba(236,61,124,.34);background:rgba(236,61,124,.10);color:#f9a8d4}
+.rejected-reason.ev{border-color:rgba(245,158,11,.34);background:rgba(245,158,11,.10);color:#fcd34d}
+.rejected-reason.no_ev,.rejected-reason.error{border-color:rgba(239,68,68,.34);background:rgba(239,68,68,.10);color:#fca5a5}
+.detected-market-list{margin-top:10px}
+.detected-market-count{font-size:11px;color:#8b92a6;margin-left:6px}
+.result-update-note{border:1px solid #293248;background:#090f1b;border-radius:18px;padding:12px;color:#cbd5e1;line-height:1.45}
+
+
+
+/* ============================================================
+   V19 LAYOUT + MOBILE DESIGN POLISH
+   ============================================================ */
+.details-card{border:1px solid #20283a;border-radius:22px;background:rgba(9,15,27,.78);overflow:hidden;margin-top:10px}.details-card>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:950;color:#f8fafc;display:flex;align-items:center;justify-content:space-between;gap:12px}.details-card>summary::-webkit-details-marker{display:none}.details-card>summary:after{content:'⌄';color:#f9a8d4;font-size:16px;transition:transform .18s ease}.details-card[open]>summary:after{transform:rotate(180deg)}.autoscan-body{padding:0 12px 12px}.scan-summary-details{border:0;background:transparent;margin:0}.scan-summary-details>summary{list-style:none;cursor:pointer;display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-weight:900;color:#f8fafc}.scan-summary-details>summary::-webkit-details-marker{display:none}.scan-summary-compact{display:inline-flex;gap:6px;flex-wrap:wrap;align-items:center}.scan-summary-body{margin-top:8px}.ev-tier-low{color:#c084fc!important}.ev-tier-mid{color:#f0abfc!important;text-shadow:0 0 10px rgba(236,61,124,.14)}.ev-tier-high{color:#fff!important;background:linear-gradient(135deg,rgba(236,61,124,.24),rgba(139,92,246,.18));border:1px solid rgba(236,61,124,.36);border-radius:12px;padding:4px 8px;box-shadow:0 0 18px rgba(236,61,124,.16)}.new-badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 8px;background:rgba(236,61,124,.18);border:1px solid rgba(236,61,124,.42);color:#f9a8d4;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.04em}.new-row td{background:rgba(236,61,124,.045)!important}.new-card{border-color:rgba(236,61,124,.55)!important;box-shadow:0 16px 50px rgba(236,61,124,.12)!important}.new-card:before{content:'NEW';display:inline-flex;margin-bottom:7px;border-radius:999px;padding:3px 8px;background:rgba(236,61,124,.18);border:1px solid rgba(236,61,124,.42);color:#f9a8d4;font-size:11px;font-weight:950;letter-spacing:.05em}.card-primary{font-size:16px;font-weight:950;line-height:1.25;margin:6px 0 4px}.card-selection{font-size:14px;color:#f8fafc;margin:5px 0}.card-oddsline{display:flex;flex-wrap:wrap;gap:8px;margin:7px 0}.stat-pill{display:inline-flex;align-items:center;gap:5px;border:1px solid #253149;background:#0a1020;border-radius:999px;padding:5px 9px;color:#cbd5e1;font-size:12px;font-weight:900}.card-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.card-actions .btn{padding:8px 11px!important;margin:0!important;width:auto!important}.detected-search{width:100%;margin:8px 0 10px;padding:10px 11px!important;border-radius:15px!important}.help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.help-item{border:1px solid #253149;background:#090f1b;border-radius:16px;padding:12px}.help-item b{color:#fff}.help-item div{font-size:12px;color:#aab3c7;margin-top:4px}.tracker-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.tracker-status-line{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}.mobile-quickbar{display:none}.chip-muted{opacity:.78}
+@media(max-width:760px){.brand h1{font-size:24px!important}.topbar{padding-bottom:88px!important}.mobile-quickbar{display:flex;position:fixed;left:12px;right:12px;bottom:78px;z-index:9;gap:8px;background:rgba(5,7,18,.88);backdrop-filter:blur(14px);border:1px solid #20283a;border-radius:24px;padding:7px;box-shadow:0 -12px 40px rgba(0,0,0,.34)}.mobile-quickbar .btn{width:50%!important;margin:0!important;padding:10px 8px!important;border-radius:18px!important;font-size:13px!important}.betcard{padding:14px!important}.betcard .evbig{font-size:26px!important}.card-primary{font-size:15px}.card-actions{display:grid;grid-template-columns:1fr 1fr}.card-actions .btn,.card-actions a.btn{width:100%!important;text-align:center}.trackbox{grid-template-columns:1fr auto!important}.scan-summary-line{font-size:11px}.details-card>summary{padding:11px 12px}.help-grid{grid-template-columns:1fr}.tracker-card-top{flex-direction:column}.tracker-status-line .statuspill{min-width:auto}.tabs{bottom:10px}.app{padding-bottom:142px!important}}
+
+
+/* ============================================================
+   V20 SETTINGS UX + PAGE-SPECIFIC FLOATING BARS
+   ============================================================ */
+.mobile-quickbar,.settings-quickbar{display:none}
+.quickbar-auto-enabled{background:linear-gradient(135deg,var(--pink),var(--purple))!important;color:#fff!important;border:0!important;box-shadow:0 12px 30px rgba(236,61,124,.24)!important}
+.quickbar-auto-disabled{background:#151d2d!important;color:#aab3c7!important;border:1px solid #293248!important;box-shadow:none!important}
+.settings-save-floating{background:linear-gradient(135deg,var(--pink),var(--purple))!important}
+.settings-search{width:100%;margin:8px 0 10px;padding:10px 11px!important;border-radius:15px!important;color:#f8fafc!important;background:#090f1b!important;border:1px solid #252d42!important}
+.settings-search::placeholder{color:#697186}
+.settings-section-body{padding:0 14px 14px}
+.settings-section-note{font-size:12px;color:#8b92a6;line-height:1.45;margin:0 0 8px}
+.market-source-note{border:1px solid #293248;background:#090f1b;border-radius:16px;padding:10px 12px;color:#aab3c7;font-size:12px;line-height:1.45;margin:8px 0 10px}
+.market-source-note b{color:#fff}
+@media(max-width:760px){.mobile-quickbar.show,.settings-quickbar.show{display:flex;position:fixed;left:12px;right:12px;bottom:78px;z-index:9;gap:8px;background:rgba(5,7,18,.88);backdrop-filter:blur(14px);border:1px solid #20283a;border-radius:24px;padding:7px;box-shadow:0 -12px 40px rgba(0,0,0,.34)}.mobile-quickbar .btn,.settings-quickbar .btn{width:50%!important;margin:0!important;padding:10px 8px!important;border-radius:18px!important;font-size:13px!important}.settings-quickbar .btn{width:100%!important}.topbar{padding-bottom:88px!important}}
+
+
+
+/* ============================================================
+   V21 MOBILE NAV + HERO ART + HELP/FAQ + AUTO RING
+   ============================================================ */
+.topbar{position:relative;overflow:hidden;min-height:140px}
+.topbar>*{position:relative;z-index:2}
+.topbar::before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(236,61,124,.20), transparent 20%),
+    radial-gradient(circle at 66% 78%, rgba(96,165,250,.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,0) 44%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 320'%3E%3Cpath d='M0 230 L120 180 L240 194 L360 140 L480 155 L600 96 L720 118 L840 70 L960 108 L1080 82 L1200 130 L1320 98 L1400 112' fill='none' stroke='rgba(96,165,250,0.35)' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M0 250 L120 236 L240 210 L360 216 L480 174 L600 190 L720 148 L840 160 L960 128 L1080 144 L1200 114 L1320 136 L1400 124' fill='none' stroke='rgba(236,61,124,0.40)' stroke-width='4' stroke-linecap='round' stroke-dasharray='1 12'/%3E%3C/svg%3E") right center/58% 84% no-repeat;
+  opacity:.95;
+  pointer-events:none;
+}
+.topbar::after{
+  content:"⚽  🏀  🎾  🏈  📈";
+  position:absolute;right:24px;bottom:12px;
+  font-size:28px;letter-spacing:10px;opacity:.12;filter:blur(.15px);
+  pointer-events:none;white-space:nowrap;
+}
+.brand{max-width:720px}
+.brand div{max-width:540px}
+.help-highlight{border:1px solid rgba(236,61,124,.32)!important;background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(236,61,124,.10))!important;box-shadow:0 18px 48px rgba(236,61,124,.08), inset 0 1px 0 rgba(255,255,255,.03)!important}
+.help-highlight-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.help-highlight-text h2{margin:0 0 4px;font-size:22px}
+.help-highlight-text .tiny{max-width:620px}
+.faq-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.faq-item{border:1px solid #253149;background:#090f1b;border-radius:16px;padding:12px}
+.faq-item b{display:block;color:#fff;margin-bottom:6px}
+.faq-item div{font-size:12px;color:#aab3c7;line-height:1.5}
+.quick-auto-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-width:0;--ring-deg:360deg}
+.quick-auto-wrap::before{
+  content:"";position:absolute;inset:-4px;border-radius:22px;padding:3px;
+  background:conic-gradient(from -90deg,var(--pink) 0deg,var(--purple) var(--ring-deg),rgba(255,255,255,.10) var(--ring-deg),rgba(255,255,255,.10) 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  box-shadow:0 0 20px rgba(236,61,124,.16);
+  transition:background .8s linear,opacity .2s ease;
+  opacity:.95;
+}
+.quick-auto-wrap.off::before{background:conic-gradient(from -90deg,#334155 0deg,#334155 360deg);opacity:.45;box-shadow:none}
+.quickbar-countdown{display:block;font-size:11px;font-weight:800;opacity:.82;margin-top:2px}
+.quickbar-auto-enabled,.quickbar-auto-disabled{width:100%!important;height:100%!important;display:flex!important;align-items:center;justify-content:center;flex-direction:column;gap:1px;min-height:48px}
+@media(max-width:760px){
+  .topbar{min-height:170px;padding:18px 16px 20px!important}
+  .topbar::before{background:
+    radial-gradient(circle at 82% 18%, rgba(236,61,124,.22), transparent 20%),
+    radial-gradient(circle at 14% 84%, rgba(96,165,250,.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,0) 44%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 320'%3E%3Cpath d='M0 230 L95 206 L180 194 L260 142 L340 157 L420 102 L500 128 L585 80 L665 116 L745 94 L825 130 L905 96 L1000 116' fill='none' stroke='rgba(96,165,250,0.34)' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M0 248 L90 236 L180 214 L260 216 L340 178 L420 190 L500 150 L585 164 L665 132 L745 150 L825 120 L905 140 L1000 130' fill='none' stroke='rgba(236,61,124,0.42)' stroke-width='4' stroke-linecap='round' stroke-dasharray='1 12'/%3E%3C/svg%3E") center 76%/100% 72% no-repeat}
+  .topbar::after{right:16px;bottom:54px;font-size:21px;letter-spacing:6px;opacity:.13}
+  .tabs{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:22!important;background:rgba(2,6,23,.98)!important;backdrop-filter:blur(18px)!important;border-top:1px solid #20283a!important;border-radius:20px 20px 0 0!important;padding:10px 12px calc(10px + env(safe-area-inset-bottom))!important;box-shadow:0 -14px 40px rgba(0,0,0,.45)!important;gap:8px!important}
+  .tab{flex:1;text-align:center}
+  .mobile-quickbar.show,.settings-quickbar.show{display:flex!important;position:fixed!important;left:12px!important;right:12px!important;bottom:84px!important;z-index:21!important;gap:10px!important;background:rgba(2,6,23,.95)!important;backdrop-filter:blur(14px)!important;border:1px solid #20283a!important;border-radius:22px!important;padding:8px!important;box-shadow:0 -10px 36px rgba(0,0,0,.38)!important}
+  .mobile-quickbar .btn,.settings-quickbar .btn{margin:0!important;padding:10px 8px!important;border-radius:18px!important;font-size:13px!important}
+  .mobile-quickbar .btn:first-child{flex:1}
+  .quick-auto-wrap{flex:1.05;min-height:52px}
+  .settings-quickbar .btn{width:100%!important}
+  .help-highlight-row{align-items:flex-start}
+  .help-highlight-row .row{width:100%}
+  .help-highlight-row .btn{width:100%}
+  .faq-list{grid-template-columns:1fr}
+  .app{padding-bottom:170px!important}
+}
+
+
+
+/* ============================================================
+   V22 VISUAL REFINEMENT - liquid auto ring, cleaner hero, selection emphasis
+   ============================================================ */
+.topbar::before{
+  background:
+    radial-gradient(circle at 82% 14%, rgba(236,61,124,.22), transparent 22%),
+    radial-gradient(circle at 62% 80%, rgba(96,165,250,.15), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0) 50%),
+    url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 1000 300%22%3E%0A  %3Cdefs%3E%0A    %3ClinearGradient id%3D%22g1%22 x1%3D%220%22 x2%3D%221%22 y1%3D%220%22 y2%3D%220%22%3E%0A      %3Cstop offset%3D%220%22 stop-color%3D%22#60a5fa%22 stop-opacity%3D%22.1%22%2F%3E%0A      %3Cstop offset%3D%22.45%22 stop-color%3D%22#8b5cf6%22 stop-opacity%3D%22.65%22%2F%3E%0A      %3Cstop offset%3D%221%22 stop-color%3D%22#ec3d7c%22 stop-opacity%3D%22.75%22%2F%3E%0A    %3C%2FlinearGradient%3E%0A    %3ClinearGradient id%3D%22g2%22 x1%3D%220%22 x2%3D%221%22 y1%3D%221%22 y2%3D%220%22%3E%0A      %3Cstop offset%3D%220%22 stop-color%3D%22#22d3ee%22 stop-opacity%3D%22.25%22%2F%3E%0A      %3Cstop offset%3D%22.55%22 stop-color%3D%22#8b5cf6%22 stop-opacity%3D%22.55%22%2F%3E%0A      %3Cstop offset%3D%221%22 stop-color%3D%22#f472b6%22 stop-opacity%3D%22.68%22%2F%3E%0A    %3C%2FlinearGradient%3E%0A    %3Cfilter id%3D%22glow%22%3E%3CfeGaussianBlur stdDeviation%3D%224%22 result%3D%22b%22%2F%3E%3CfeMerge%3E%3CfeMergeNode in%3D%22b%22%2F%3E%3CfeMergeNode in%3D%22SourceGraphic%22%2F%3E%3C%2FfeMerge%3E%3C%2Ffilter%3E%0A  %3C%2Fdefs%3E%0A  %3Cg opacity%3D%22.22%22%3E%0A    %3Cpath d%3D%22M0 70 H1000 M0 130 H1000 M0 190 H1000 M0 250 H1000 M120 0 V300 M240 0 V300 M360 0 V300 M480 0 V300 M600 0 V300 M720 0 V300 M840 0 V300%22 stroke%3D%22#94a3b8%22 stroke-width%3D%221%22%2F%3E%0A  %3C%2Fg%3E%0A  %3Cpath d%3D%22M18 218 C110 194 144 236 218 176 S358 128 430 154 S548 90 626 116 S760 166 830 96 S940 72 1000 92%22 fill%3D%22none%22 stroke%3D%22url(#g1)%22 stroke-width%3D%226%22 stroke-linecap%3D%22round%22 filter%3D%22url(#glow)%22%2F%3E%0A  %3Cpath d%3D%22M20 248 C112 230 174 214 260 224 S414 160 488 180 S620 132 690 150 S806 120 880 136 S958 112 1000 118%22 fill%3D%22none%22 stroke%3D%22url(#g2)%22 stroke-width%3D%223.5%22 stroke-linecap%3D%22round%22 stroke-dasharray%3D%222 12%22 filter%3D%22url(#glow)%22%2F%3E%0A  %3Cg fill%3D%22none%22 stroke%3D%22#c084fc%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22 stroke-linejoin%3D%22round%22 opacity%3D%22.58%22 filter%3D%22url(#glow)%22%3E%0A    %3Ccircle cx%3D%22746%22 cy%3D%22212%22 r%3D%2222%22%2F%3E%3Cpath d%3D%22M724 212H768M746 190c13 16 13 28 0 44M746 190c-13 16-13 28 0 44%22%2F%3E%0A    %3Ccircle cx%3D%22834%22 cy%3D%22206%22 r%3D%2218%22%2F%3E%3Cpath d%3D%22M816 206h36M834 188v36M822 194c16 10 21 23 24 31%22%2F%3E%0A    %3Ccircle cx%3D%22916%22 cy%3D%22204%22 r%3D%2218%22%2F%3E%3Cpath d%3D%22M904 192l24 24M928 192l-24 24%22%2F%3E%0A  %3C%2Fg%3E%0A  %3Cg fill%3D%22none%22 stroke%3D%22#60a5fa%22 stroke-width%3D%222.5%22 stroke-linecap%3D%22round%22 opacity%3D%22.48%22%3E%0A    %3Cpath d%3D%22M704 74 l18 -18 l18 18 l-18 18z%22%2F%3E%3Cpath d%3D%22M782 58 q26 26 0 52 q-26 -26 0 -52z%22%2F%3E%3Cpath d%3D%22M872 58 h42 m-21 0 v42 m-22 0 h44%22%2F%3E%0A  %3C%2Fg%3E%0A  %3Cg fill%3D%22#f8fafc%22 opacity%3D%22.08%22%3E%0A    %3Ccircle cx%3D%22702%22 cy%3D%22214%22 r%3D%223%22%2F%3E%3Ccircle cx%3D%22790%22 cy%3D%22128%22 r%3D%223%22%2F%3E%3Ccircle cx%3D%22914%22 cy%3D%2290%22 r%3D%223%22%2F%3E%3Ccircle cx%3D%22646%22 cy%3D%22170%22 r%3D%222.5%22%2F%3E%0A  %3C%2Fg%3E%0A%3C%2Fsvg%3E") right center/64% 88% no-repeat !important;
+  opacity:.92 !important;
+}
+.topbar::after{
+  content:"" !important;
+  position:absolute;right:32px;bottom:18px;width:42%;height:56%;
+  background:linear-gradient(115deg,transparent,rgba(236,61,124,.08),transparent);
+  border-radius:999px;filter:blur(18px);opacity:.9;pointer-events:none;
+}
+.selection-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid rgba(236,61,124,.45);
+  background:linear-gradient(135deg,rgba(236,61,124,.18),rgba(139,92,246,.16));
+  color:#fff;border-radius:999px;padding:5px 10px;
+  font-weight:950;box-shadow:0 0 18px rgba(236,61,124,.12);
+  white-space:nowrap;
+}
+.selection-pill .line-part{color:#f9a8d4;font-weight:900;opacity:.95}
+.market-text{display:inline-flex;color:#9ca3af;font-size:12px;margin-top:5px}
+.card-selection{display:flex!important;flex-wrap:wrap;gap:7px;align-items:center;margin:8px 0!important}
+.stat-pill.market-pill{color:#aab3c7;background:rgba(9,15,27,.72);border-color:#253149}
+.quick-auto-wrap{--ring-deg:360deg;--ring-glow:rgba(236,61,124,.26)}
+.quick-auto-wrap::before{
+  inset:-5px;padding:3px;border-radius:24px;
+  background:
+    conic-gradient(from -90deg,
+      rgba(236,61,124,.98) 0deg,
+      rgba(139,92,246,.98) calc(var(--ring-deg) * .52),
+      rgba(96,165,250,.75) var(--ring-deg),
+      rgba(255,255,255,.08) var(--ring-deg),
+      rgba(255,255,255,.08) 360deg) !important;
+  box-shadow:0 0 18px rgba(236,61,124,.22),0 0 34px rgba(139,92,246,.12) !important;
+  transition:background .08s linear, opacity .2s ease !important;
+}
+.quick-auto-wrap::after{
+  content:"";position:absolute;inset:-9px;border-radius:28px;padding:4px;
+  background:conic-gradient(from 0deg, transparent 0deg, transparent 245deg, rgba(255,255,255,.16) 275deg, rgba(236,61,124,.92) 304deg, rgba(139,92,246,.88) 330deg, transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  filter:drop-shadow(0 0 8px rgba(236,61,124,.55));
+  animation:liquidRingSpin 1.9s linear infinite;
+  opacity:.95;pointer-events:none;
+}
+.quick-auto-wrap.off::after{display:none}
+.quick-auto-wrap.off::before{background:conic-gradient(from -90deg,#334155 0deg,#334155 360deg)!important;opacity:.45;box-shadow:none!important}
+.quickbar-auto-enabled{
+  background:linear-gradient(135deg,rgba(139,92,246,.96),rgba(236,61,124,.96))!important;
+  box-shadow:0 0 24px rgba(236,61,124,.24), inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+@keyframes liquidRingSpin{to{transform:rotate(360deg)}}
+.help-bottom-card{border-color:rgba(236,61,124,.28)!important;background:linear-gradient(135deg,rgba(139,92,246,.10),rgba(236,61,124,.07))!important}
+@media(max-width:760px){
+  .topbar::before{
+    background:
+      radial-gradient(circle at 82% 14%, rgba(236,61,124,.22), transparent 22%),
+      radial-gradient(circle at 16% 82%, rgba(96,165,250,.13), transparent 28%),
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0) 50%),
+      url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 1000 300%22%3E%0A  %3Cdefs%3E%0A    %3ClinearGradient id%3D%22g1%22 x1%3D%220%22 x2%3D%221%22 y1%3D%220%22 y2%3D%220%22%3E%0A      %3Cstop offset%3D%220%22 stop-color%3D%22#60a5fa%22 stop-opacity%3D%22.1%22%2F%3E%0A      %3Cstop offset%3D%22.45%22 stop-color%3D%22#8b5cf6%22 stop-opacity%3D%22.65%22%2F%3E%0A      %3Cstop offset%3D%221%22 stop-color%3D%22#ec3d7c%22 stop-opacity%3D%22.75%22%2F%3E%0A    %3C%2FlinearGradient%3E%0A    %3ClinearGradient id%3D%22g2%22 x1%3D%220%22 x2%3D%221%22 y1%3D%221%22 y2%3D%220%22%3E%0A      %3Cstop offset%3D%220%22 stop-color%3D%22#22d3ee%22 stop-opacity%3D%22.25%22%2F%3E%0A      %3Cstop offset%3D%22.55%22 stop-color%3D%22#8b5cf6%22 stop-opacity%3D%22.55%22%2F%3E%0A      %3Cstop offset%3D%221%22 stop-color%3D%22#f472b6%22 stop-opacity%3D%22.68%22%2F%3E%0A    %3C%2FlinearGradient%3E%0A    %3Cfilter id%3D%22glow%22%3E%3CfeGaussianBlur stdDeviation%3D%224%22 result%3D%22b%22%2F%3E%3CfeMerge%3E%3CfeMergeNode in%3D%22b%22%2F%3E%3CfeMergeNode in%3D%22SourceGraphic%22%2F%3E%3C%2FfeMerge%3E%3C%2Ffilter%3E%0A  %3C%2Fdefs%3E%0A  %3Cg opacity%3D%22.22%22%3E%0A    %3Cpath d%3D%22M0 70 H1000 M0 130 H1000 M0 190 H1000 M0 250 H1000 M120 0 V300 M240 0 V300 M360 0 V300 M480 0 V300 M600 0 V300 M720 0 V300 M840 0 V300%22 stroke%3D%22#94a3b8%22 stroke-width%3D%221%22%2F%3E%0A  %3C%2Fg%3E%0A  %3Cpath d%3D%22M18 218 C110 194 144 236 218 176 S358 128 430 154 S548 90 626 116 S760 166 830 96 S940 72 1000 92%22 fill%3D%22none%22 stroke%3D%22url(#g1)%22 stroke-width%3D%226%22 stroke-linecap%3D%22round%22 filter%3D%22url(#glow)%22%2F%3E%0A  %3Cpath d%3D%22M20 248 C112 230 174 214 260 224 S414 160 488 180 S620 132 690 150 S806 120 880 136 S958 112 1000 118%22 fill%3D%22none%22 stroke%3D%22url(#g2)%22 stroke-width%3D%223.5%22 stroke-linecap%3D%22round%22 stroke-dasharray%3D%222 12%22 filter%3D%22url(#glow)%22%2F%3E%0A  %3Cg fill%3D%22none%22 stroke%3D%22#c084fc%22 stroke-width%3D%223%22 stroke-linecap%3D%22round%22 stroke-linejoin%3D%22round%22 opacity%3D%22.58%22 filter%3D%22url(#glow)%22%3E%0A    %3Ccircle cx%3D%22746%22 cy%3D%22212%22 r%3D%2222%22%2F%3E%3Cpath d%3D%22M724 212H768M746 190c13 16 13 28 0 44M746 190c-13 16-13 28 0 44%22%2F%3E%0A    %3Ccircle cx%3D%22834%22 cy%3D%22206%22 r%3D%2218%22%2F%3E%3Cpath d%3D%22M816 206h36M834 188v36M822 194c16 10 21 23 24 31%22%2F%3E%0A    %3Ccircle cx%3D%22916%22 cy%3D%22204%22 r%3D%2218%22%2F%3E%3Cpath d%3D%22M904 192l24 24M928 192l-24 24%22%2F%3E%0A  %3C%2Fg%3E%0A  %3Cg fill%3D%22none%22 stroke%3D%22#60a5fa%22 stroke-width%3D%222.5%22 stroke-linecap%3D%22round%22 opacity%3D%22.48%22%3E%0A    %3Cpath d%3D%22M704 74 l18 -18 l18 18 l-18 18z%22%2F%3E%3Cpath d%3D%22M782 58 q26 26 0 52 q-26 -26 0 -52z%22%2F%3E%3Cpath d%3D%22M872 58 h42 m-21 0 v42 m-22 0 h44%22%2F%3E%0A  %3C%2Fg%3E%0A  %3Cg fill%3D%22#f8fafc%22 opacity%3D%22.08%22%3E%0A    %3Ccircle cx%3D%22702%22 cy%3D%22214%22 r%3D%223%22%2F%3E%3Ccircle cx%3D%22790%22 cy%3D%22128%22 r%3D%223%22%2F%3E%3Ccircle cx%3D%22914%22 cy%3D%2290%22 r%3D%223%22%2F%3E%3Ccircle cx%3D%22646%22 cy%3D%22170%22 r%3D%222.5%22%2F%3E%0A  %3C%2Fg%3E%0A%3C%2Fsvg%3E") center 70%/118% 82% no-repeat !important;
+  }
+  .topbar::after{right:18px;bottom:44px;width:68%;height:42%;opacity:.75}
+  .selection-pill{width:100%;justify-content:center;padding:7px 10px}
+  .market-text{width:100%;justify-content:center;text-align:center}
+}
+
+
+
+/* ============================================================
+   V23 CORRECTIONS - simpler auto ring, compact market/selection, real header art
+   ============================================================ */
+.hero-visual{position:absolute!important;right:18px;top:8px;bottom:8px;width:58%;z-index:1!important;opacity:.86;pointer-events:none;display:flex;align-items:center;justify-content:flex-end;mix-blend-mode:screen}.hero-visual svg{width:100%;height:100%;max-height:210px;filter:drop-shadow(0 0 18px rgba(139,92,246,.16))}.topbar::before{background:radial-gradient(circle at 84% 22%,rgba(236,61,124,.18),transparent 23%),radial-gradient(circle at 58% 74%,rgba(96,165,250,.13),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,0) 50%)!important}.topbar::after{display:none!important}.brand{position:relative;z-index:3!important}.tabs{position:relative;z-index:4!important}
+.selection-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid rgba(236,61,124,.42);background:linear-gradient(135deg,rgba(236,61,124,.13),rgba(139,92,246,.14));color:#fff;border-radius:999px;padding:5px 10px;font-weight:900;font-size:13px;line-height:1.1;box-shadow:0 0 12px rgba(236,61,124,.10);white-space:nowrap;max-width:100%}.selection-pill .market-part{color:#f9a8d4;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.03em;opacity:.95}.selection-pill .sep{color:#64748b;font-weight:900}.selection-pill .sel-part{color:#fff;overflow:hidden;text-overflow:ellipsis}.selection-pill .line-part{color:#d8b4fe;font-weight:800;opacity:.95}.card-selection{display:flex!important;flex-wrap:wrap;gap:7px;align-items:center;margin:8px 0!important}.market-text{display:none!important}.stat-pill.market-pill{display:none!important}.quick-auto-wrap::after{display:none!important}.quick-auto-wrap::before{inset:-4px!important;padding:3px!important;border-radius:24px!important;background:conic-gradient(from -90deg,rgba(236,61,124,.95) 0deg,rgba(139,92,246,.95) var(--ring-deg),rgba(255,255,255,.08) var(--ring-deg),rgba(255,255,255,.08) 360deg)!important;box-shadow:0 0 18px rgba(236,61,124,.18),0 0 28px rgba(139,92,246,.10)!important;transition:background .08s linear,opacity .2s ease!important}.quick-auto-wrap.off::before{background:conic-gradient(from -90deg,#334155 0deg,#334155 360deg)!important;opacity:.45;box-shadow:none!important}.quickbar-auto-enabled{box-shadow:0 0 20px rgba(236,61,124,.20),inset 0 1px 0 rgba(255,255,255,.08)!important}
+@media(max-width:760px){.topbar{min-height:172px!important}.hero-visual{left:8px;right:8px;top:46px;bottom:8px;width:auto;opacity:.48;justify-content:center}.hero-visual svg{width:120%;max-width:none}.brand{max-width:100%}.selection-pill{width:auto;max-width:100%;padding:6px 10px;font-size:13px}.card-selection{justify-content:flex-start}.card-primary{margin-top:10px!important}}
+
+
+
+/* ============================================================
+   V24 SCAN SUMMARY + COMPACT ACTIONS
+   ============================================================ */
+.scan-summary-details{
+  border:1px solid #253149!important;
+  border-radius:22px!important;
+  background:rgba(13,20,35,.78)!important;
+  padding:0!important;
+  overflow:hidden;
+}
+.scan-summary-details>summary{
+  padding:12px 12px!important;
+  gap:8px!important;
+  align-items:flex-start!important;
+  flex-direction:column;
+}
+.scan-summary-details>summary:after{content:none!important}
+.scan-summary-compact{gap:6px!important}
+.scan-summary-diagnostics{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:2px}
+.scan-summary-diagnostics .scan-summary-topic{font-size:11px;color:#9ca3af;margin-right:2px}
+.scan-summary-body{padding:0 12px 12px;margin-top:0!important}
+.taken-badge,.not-taken-badge,.hidden-badge{
+  padding:4px 7px!important;
+  font-size:10.5px!important;
+  line-height:1!important;
+  border-radius:999px!important;
+  gap:4px!important;
+  min-width:auto!important;
+  width:auto!important;
+  max-width:max-content!important;
+}
+.not-taken-badge{opacity:.82}
+.scan-action-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.scan-action-row .oddsbox{flex:1 1 132px;min-width:118px!important;width:auto!important}
+.scan-action-row .btn{width:auto!important;margin:0!important;padding:8px 10px!important;border-radius:14px!important;white-space:nowrap}
+.scan-action-row .hide-bet-btn{padding:8px 9px!important;min-width:auto!important;font-size:12px!important}
+.scan-action-row .trackstate{display:inline-flex!important;align-items:center;gap:5px;flex:0 0 auto}
+.odds-link{color:#f8fafc;text-decoration:none;font-weight:950}
+.odds-link:hover{color:#f9a8d4;text-decoration:underline}
+.stat-pill .odds-link{font-size:inherit}
+.table-odds-link{color:#f0abfc;text-decoration:none;font-weight:950}
+.table-odds-link:hover{text-decoration:underline;color:#fff}
+.card-actions.compact-open{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap}
+.card-actions.compact-open .btn{width:auto!important;min-width:94px}
+@media(max-width:760px){
+  .scan-summary-details>summary{padding:11px!important}
+  .scan-summary-body{padding:0 11px 11px}
+  .scan-summary-chip,.diag-chip{font-size:11px;padding:3px 7px!important}
+  .scan-action-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:center}
+  .scan-action-row .trackstate{grid-column:1 / -1;justify-self:start}
+  .scan-action-row .oddsbox{min-width:0!important;width:100%!important}
+  .scan-action-row .btn{font-size:12px!important;padding:8px 10px!important}
+}
+
+
+
+/* ============================================================
+   V25 TRACKER CARD REDESIGN + CLV POPUP
+   ============================================================ */
+.tracker-card-v25{padding:16px!important}
+.tracker-status-head{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tracker-status-head .statuspill{padding:6px 14px;border-radius:18px;font-size:14px;text-transform:uppercase;letter-spacing:.02em;min-width:auto}
+.tracker-selection-main{font-size:22px;font-weight:950;color:#fff;line-height:1.2;margin:4px 0 6px;letter-spacing:-.025em}
+.tracker-selection-main .at-odds{color:#f0abfc;margin-left:4px;white-space:nowrap}
+.tracker-event-sub{font-size:13px;color:#8b92a6;font-weight:800;margin-bottom:10px;line-height:1.35}
+.tracker-badge-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:8px 0 10px}
+.tracker-badge-row .meta-chip{padding:5px 9px;font-size:12px;border-radius:999px;background:#0a1020;border-color:#253149;color:#cbd5e1}
+.tracker-bookie-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(34,197,94,.28)!important;background:rgba(34,197,94,.08)!important;color:#a7f3d0!important}
+.tracker-bookie-chip:before{content:"";width:7px;height:7px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+.tracker-adjust-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 14px}
+.tracker-adjust-row .quickstatus{margin:0;display:flex;gap:7px}
+.clv-click{cursor:pointer;user-select:none;transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.clv-click:hover{transform:translateY(-1px);border-color:rgba(236,61,124,.48)!important;background:rgba(236,61,124,.12)!important;color:#fff!important}
+.tracker-bottom-actions{display:flex;gap:9px;align-items:center;margin-top:8px}
+.tracker-bottom-actions .iconbtn{width:42px;height:40px;border-radius:15px;margin:0;font-size:18px;text-decoration:none}
+.tracker-bottom-actions .iconbtn.bookie-link{color:#f0abfc!important;border-color:rgba(236,61,124,.34)!important;background:rgba(236,61,124,.08)!important}
+.tracker-bottom-actions .iconbtn.bookie-link:hover{box-shadow:0 0 0 4px rgba(236,61,124,.13)!important}
+.tracker-bottom-actions .spacer{flex:1}
+.clv-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px}
+.clv-preview{margin-top:10px;border:1px solid #253149;border-radius:16px;padding:10px;background:#090f1b;color:#cbd5e1;font-size:13px;line-height:1.45}
+.table-clv-link{display:inline-flex;align-items:center;gap:5px;border:1px solid #293248;background:#101827;border-radius:999px;padding:3px 8px;color:#cbd5e1;cursor:pointer;font-weight:900}
+.table-clv-link:hover{border-color:rgba(236,61,124,.48);color:#fff;background:rgba(236,61,124,.12)}
+@media(max-width:760px){
+  .tracker-card-v25{padding:16px!important;border-radius:24px!important}
+  .tracker-selection-main{font-size:20px}
+  .tracker-status-head{margin-bottom:10px}
+  .tracker-adjust-row{justify-content:flex-start}
+  .tracker-adjust-row .statusbtn{width:42px;height:38px}
+  .tracker-bottom-actions .iconbtn{width:46px;height:42px}
+}
+
+
+
+/* ============================================================
+   V27 TRACKER TOP METRICS + 3-WAY CLV
+   ============================================================ */
+.tracker-status-head{gap:7px!important;margin-bottom:10px!important}
+.tracker-status-head .stat-pill,.tracker-status-head .meta-chip{padding:6px 10px!important;font-size:12px!important}
+.tracker-top-metric{cursor:default}
+.tracker-top-metric.clv-click{cursor:pointer;border-color:rgba(236,61,124,.30)!important;background:rgba(236,61,124,.07)!important}
+.tracker-adjust-row{margin:10px 0 12px!important}
+.tracker-adjust-row .quickstatus{gap:8px!important}
+.clv-form-grid.threeway{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.clv-preview{border:1px solid #293248;background:#090f1b;border-radius:16px;padding:11px 12px;color:#cbd5e1;line-height:1.45}
+@media(max-width:760px){
+  .tracker-status-head{display:flex!important;align-items:center!important;gap:8px!important}
+  .tracker-status-head .statuspill{padding:6px 12px!important;font-size:13px!important}
+  .tracker-status-head .stat-pill,.tracker-status-head .meta-chip{padding:5px 9px!important;font-size:12px!important}
+  .tracker-selection-main{font-size:19px!important;margin-top:6px!important}
+}
+
+
+
+/* ============================================================
+   V28 OVER/UNDER SELECTION DISPLAY
+   ============================================================ */
+.selection-pill.over-under .ou-part,
+.tracker-selection-main .ou-word{color:#f0abfc;font-weight:950;text-shadow:0 0 12px rgba(236,61,124,.16)}
+.selection-pill.over-under .line-part{color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:1px 7px;margin-left:1px}
+.tracker-selection-main .ou-line{color:#f0abfc;font-weight:900}
+
+
+
+/* ============================================================
+   V29 usability upgrades: track/hide modals, min odds, stale badges, tracker filters
+   ============================================================ */
+.time-badge{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(96,165,250,.28);background:rgba(96,165,250,.09);color:#bfdbfe;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:950;white-space:nowrap}.time-badge.soon{border-color:rgba(245,158,11,.38);background:rgba(245,158,11,.11);color:#fcd34d}.time-badge.expired{border-color:rgba(239,68,68,.38);background:rgba(239,68,68,.11);color:#fca5a5}.min-odds-label{font-weight:950;color:#d8b4fe}.scan-action-row.clean{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:10px}.scan-action-row.clean .btn{margin:0!important;width:auto!important}.hide-reason-list{display:grid;gap:8px;margin:12px 0}.reason-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px;border-radius:16px;border:1px solid #293248;background:#090f1b;color:#dbe3f5;cursor:pointer;text-align:left;font-weight:900}.reason-btn:hover{border-color:rgba(236,61,124,.45);background:rgba(236,61,124,.08)}.reason-btn span{color:#8b92a6;font-size:12px;font-weight:800}.hide-reason-pill{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(245,158,11,.28);background:rgba(245,158,11,.08);color:#fcd34d;border-radius:999px;padding:3px 7px;font-size:11px;font-weight:900}.track-choice-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.track-ev-preview{border:1px solid #293248;background:#090f1b;border-radius:16px;padding:11px;color:#cbd5e1;font-weight:800}.track-ev-preview.warn{border-color:rgba(239,68,68,.42);background:rgba(239,68,68,.10);color:#fca5a5}.track-ev-preview.good{border-color:rgba(34,197,94,.38);background:rgba(34,197,94,.10);color:#86efac}.health-list{display:grid;gap:8px;margin-top:10px}.health-row{display:flex;justify-content:space-between;gap:12px;border:1px solid #253149;background:#090f1b;border-radius:14px;padding:10px;color:#cbd5e1}.health-row b{color:#fff}.health-ok{color:#86efac!important}.health-warn{color:#fcd34d!important}.health-bad{color:#fca5a5!important}.tracker-filter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tracker-filter-grid .field{margin:0}.scanner-table-date{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+@media(max-width:760px){.time-badge{font-size:10px;padding:3px 7px}.scan-action-row.clean{display:grid;grid-template-columns:1fr auto auto;align-items:center}.scan-action-row.clean .trackstate{grid-column:1/-1}.tracker-filter-grid{grid-template-columns:1fr 1fr}.tracker-filter-grid .field label{font-size:11px}.reason-btn{padding:11px}.track-choice-grid .btn{width:100%!important}}
+
+
+/* ============================================================
+   V31 REJECTED ANALYSIS + PLAYER PROPS NORMALIZATION
+   ============================================================ */
+.rejected-popup-wide{max-width:1180px!important}
+.rejected-controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px;align-items:center}
+.reason-filter-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #293248;background:#0a1020;color:#cbd5e1;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;cursor:pointer}
+.reason-filter-btn:hover{border-color:rgba(236,61,124,.50);background:rgba(236,61,124,.10)}
+.reason-filter-btn.active{border-color:rgba(236,61,124,.65);background:linear-gradient(135deg,rgba(236,61,124,.20),rgba(139,92,246,.14));color:#fff;box-shadow:0 0 0 3px rgba(236,61,124,.08)}
+.rejected-scroll-top{height:16px;overflow-x:auto;overflow-y:hidden;border:1px solid #253149;border-bottom:0;border-radius:16px 16px 0 0;background:#070c17;margin-top:10px}
+.rejected-scroll-top-inner{height:1px}
+.rejected-wrap.synced{max-height:60vh;overflow:auto;border-radius:0 0 18px 18px;margin-top:0}
+.rejected-table th{position:sticky;top:0;z-index:3}
+.rejected-table .reason-cell{cursor:pointer}
+.rejected-toolbar-note{font-size:12px;color:#8b92a6;margin-top:6px}
+@media(max-width:760px){.rejected-wrap.synced{max-height:58vh}.rejected-popup-wide{max-width:96vw!important}.reason-filter-btn{font-size:11px;padding:5px 8px}}
+
+
+
+/* ============================================================
+   V34 STABILITY + DESKTOP SCROLLBARS + CLEAN SCANNER BADGES
+   ============================================================ */
+#scannerTable.tablewrap{overflow:visible!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.scanner-table-scroll-top{overflow-x:auto;overflow-y:hidden;height:16px;border:1px solid #253149;border-radius:12px;background:#090f1b;margin:0 0 8px 0;position:sticky;top:0;z-index:8}
+.scanner-table-scroll-top-inner{height:1px;min-width:1120px}
+.scanner-table-inner{overflow:auto;background:#0b111f;border:1px solid #20283a;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.20)}
+.field-pill{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid #293248;background:#0a1020;border-radius:999px;padding:5px 9px;color:#cbd5e1;font-size:12px;font-weight:950;white-space:nowrap;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.field-pill.market-field{border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.12);color:#d8b4fe;text-transform:uppercase;font-size:11px;letter-spacing:.03em}
+.field-pill.line-field{border-color:rgba(96,165,250,.28);background:rgba(96,165,250,.10);color:#bfdbfe}
+.field-pill.empty-field{opacity:.55;color:#8b92a6}
+.selection-pill.selection-only{padding:5px 10px;font-size:12px;max-width:280px;overflow:hidden;text-overflow:ellipsis}
+.reason-filter-btn.active{border-color:rgba(236,61,124,.62)!important;background:rgba(236,61,124,.18)!important;color:#fff!important}
+.reason-cell{cursor:pointer}
+.reason-cell:hover .rejected-reason{filter:brightness(1.15);border-color:rgba(236,61,124,.55)}
+@media(max-width:760px){.scanner-table-scroll-top,.scanner-table-inner{display:none}.field-pill{font-size:11px}.selection-pill.selection-only{font-size:12px;width:auto!important;justify-content:flex-start!important}.scanner-card-marketline{display:flex;flex-wrap:wrap;gap:7px;margin:7px 0}.scanner-card-marketline .field-pill{width:auto}}
+
+
+
+/* ============================================================
+   V35 SCANNER TABLE TWO-ROW COMPACT DESKTOP LAYOUT
+   ============================================================ */
+.scanner-two-row-table{min-width:880px!important;width:100%;border-collapse:separate;border-spacing:0}
+.scanner-two-row-table th:nth-child(1){width:115px}
+.scanner-two-row-table th:nth-child(2){width:145px}
+.scanner-two-row-table th:nth-child(3){width:140px}
+.scanner-two-row-table th:nth-child(4){width:220px}
+.scanner-two-row-table th:nth-child(6){width:210px}
+.scanner-main-row td{border-bottom:0!important;padding-top:10px!important;padding-bottom:6px!important}
+.scanner-detail-row td{padding-top:3px!important;padding-bottom:10px!important;border-bottom:1px solid #171f31!important;background:rgba(9,15,27,.38)}
+.scanner-detail-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:36px;flex-wrap:wrap}
+.scanner-detail-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1}
+.detail-label{font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.05em;color:#697186;margin-left:2px}
+.scanner-detail-strip .field-pill,.scanner-detail-strip .selection-pill{padding:4px 8px!important;font-size:11px!important;max-width:230px}
+.scanner-detail-strip .selection-pill{border-color:rgba(236,61,124,.45);background:linear-gradient(135deg,rgba(236,61,124,.16),rgba(139,92,246,.12));color:#fff}
+.compact-open-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(139,92,246,.32);background:rgba(139,92,246,.10);border-radius:999px;padding:4px 9px;font-size:11px;font-weight:950;text-decoration:none!important;white-space:nowrap}
+.two-row-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.two-row-actions .btn{padding:6px 9px!important;border-radius:12px!important;font-size:11px!important;margin:0!important;width:auto!important}
+.compact-trackstate .taken-badge,.compact-trackstate .not-taken-badge,.compact-trackstate .hidden-badge{padding:4px 7px!important;font-size:10px!important}
+.scanner-event-cell{font-weight:850;max-width:360px;overflow:hidden;text-overflow:ellipsis}
+.scanner-table-scroll-top-inner{min-width:880px!important}
+@media(max-width:760px){.scanner-two-row-table{min-width:880px!important}}
+
+
+
+/* ============================================================
+   V36 SCANNER LINKED BADGES + TRACKER CLEAR FIX
+   ============================================================ */
+.pill-link{display:inline-flex;text-decoration:none!important;color:inherit!important;border-radius:999px}
+.pill-link:hover .field-pill,.pill-link:hover .selection-pill{border-color:rgba(236,61,124,.62)!important;box-shadow:0 0 0 3px rgba(236,61,124,.10),0 0 16px rgba(236,61,124,.16)!important;color:#fff!important}
+.scanner-detail-strip .compact-open-link{display:none!important}
+.scanner-card-marketline .pill-link,.scanner-detail-left .pill-link{display:inline-flex}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><h1>Valuebet Scanner + Tracker</h1><div>Odds-API.io · browser-only private tool</div></div>
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 680 260" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="hvLine" x1="0" x2="1" y1="1" y2="0">
+            <stop offset="0" stop-color="#60a5fa" stop-opacity="0.18"/>
+            <stop offset="0.55" stop-color="#8b5cf6" stop-opacity="0.78"/>
+            <stop offset="1" stop-color="#ec3d7c" stop-opacity="0.92"/>
+          </linearGradient>
+          <linearGradient id="hvLine2" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#22d3ee" stop-opacity="0.2"/>
+            <stop offset="0.6" stop-color="#a855f7" stop-opacity="0.68"/>
+            <stop offset="1" stop-color="#f472b6" stop-opacity="0.78"/>
+          </linearGradient>
+          <filter id="hvGlow"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g opacity="0.18" stroke="#94a3b8" stroke-width="1">
+          <path d="M0 54H680M0 102H680M0 150H680M0 198H680M76 0V260M158 0V260M240 0V260M322 0V260M404 0V260M486 0V260M568 0V260"/>
+        </g>
+        <path d="M8 202 C72 172 120 212 174 154 S278 96 340 124 S442 66 506 94 S598 142 672 70" fill="none" stroke="url(#hvLine)" stroke-width="6" stroke-linecap="round" filter="url(#hvGlow)"/>
+        <path d="M10 226 C80 214 126 184 188 198 S300 136 352 156 S454 118 512 132 S602 96 674 112" fill="none" stroke="url(#hvLine2)" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="1 11" filter="url(#hvGlow)"/>
+        <g fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.64" filter="url(#hvGlow)">
+          <circle cx="478" cy="196" r="19"/><path d="M459 196h38M478 177c11 15 11 24 0 38M478 177c-11 15-11 24 0 38"/>
+          <circle cx="552" cy="188" r="17"/><path d="M535 188h34M552 171v34M540 177c15 9 20 21 23 29"/>
+          <circle cx="622" cy="188" r="16"/><path d="M611 177l22 22M633 177l-22 22"/>
+        </g>
+        <g fill="none" stroke="#60a5fa" stroke-width="2.4" stroke-linecap="round" opacity="0.48">
+          <path d="M458 56l15-15 15 15-15 15z"/>
+          <path d="M532 42q24 24 0 48q-24-24 0-48z"/>
+          <path d="M608 44h42m-21 0v40m-20 0h40"/>
+        </g>
+        <g fill="#f8fafc" opacity="0.12">
+          <circle cx="438" cy="92" r="2.6"/><circle cx="592" cy="66" r="2.8"/><circle cx="516" cy="218" r="2.4"/><circle cx="642" cy="140" r="2.2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="showPage('scanner')">Scanner</button>
+      <button class="tab" onclick="showPage('tracker')">Tracker</button>
+      <button class="tab" onclick="showPage('settings')">Settings</button>
+    </div>
+  </div>
+  <div id="mobileQuickbar" class="mobile-quickbar">
+    <button class="btn" onclick="showPage('scanner'); runScanner(false)">Scan now</button>
+    <div id="quickAutoWrap" class="quick-auto-wrap off">
+      <button id="quickAutoBtn" class="btn secondary quickbar-auto-disabled" onclick="toggleAutoScanFromQuickbar()">Auto OFF</button>
+    </div>
+  </div>
+  <div id="settingsQuickbar" class="settings-quickbar">
+    <button class="btn settings-save-floating" onclick="saveSettings()">Save all</button>
+  </div>
+
+  <section id="page-scanner">
+    <div class="card">
+      <div class="row">
+        <button class="btn" onclick="runScanner(false)">Run Valuebet Scan</button>
+        <button class="btn secondary" onclick="renderScannerResults()">Refresh View</button>
+      </div>
+      <details class="autoscan-panel details-card">
+        <summary>Auto-scan settings</summary>
+        <div class="autoscan-body">
+        <div class="compact-row">
+          <label class="toggleline"><input id="autoScanEnabled" type="checkbox" onchange="saveAutoScanSettings(); setupAutoScanTimer();"> Auto-scan</label>
+          <div class="compact-field"><label>Interval</label><select id="autoScanInterval" onchange="saveAutoScanSettings(); setupAutoScanTimer();"><option value="0.5">Every 30 sec</option><option value="1">Every 1 min</option><option value="2">Every 2 min</option><option value="3">Every 3 min</option><option value="5" selected>Every 5 min</option><option value="10">Every 10 min</option><option value="15">Every 15 min</option><option value="30">Every 30 min</option></select></div>
+          <label class="toggleline"><input id="autoScanNotify" type="checkbox" onchange="saveAutoScanSettings()" checked> Popup on new bets</label>
+          <button class="btn secondary" onclick="requestNotificationPermission()">Enable browser notifications</button>
+          <button id="installPwaBtn" class="btn secondary" onclick="installPwa()">Install app</button>
+        </div>
+        <div class="compact-row alert-options">
+          <label class="toggleline"><input id="autoScanSound" type="checkbox" onchange="saveAutoScanSettings()"> Sound alert</label>
+          <label class="toggleline"><input id="autoScanVibrate" type="checkbox" onchange="saveAutoScanSettings()" checked> Vibration alert</label>
+          <button class="btn secondary" onclick="testNewBetAlert()">Test alert</button>
+          <button class="btn secondary" onclick="testVibrationOnly()">Test vibration</button>
+        </div>
+        <div id="autoScanState" class="autoscan-state">Auto-scan is off. The page must stay open for browser-based automation.</div>
+        <div id="pwaInstallHint" class="install-hint">For Android app mode, host this folder over HTTPS, then use Install app or Chrome → Add to Home screen.</div>
+        <div class="vibration-note">Note: Android vibration can be blocked by browser, device vibration settings, battery saver, silent/DND mode, or when the page is fully backgrounded. Use Test vibration after opening the app.</div>
+        <div id="autoScanProgress" class="autoscan-progress off" title="Auto-scan countdown"><div id="autoScanProgressFill" class="autoscan-progress-fill"></div></div>
+        </div>
+      </details>
+      <div id="scannerStatus" class="status" style="margin-top:10px">Press the button to scan selected bookmakers.</div>
+      <div id="scannerControls" class="scanner-controls hidden">
+        <div class="compact-row">
+          <div class="compact-field"><label>Sort</label><select id="scanSort" onchange="renderScannerResults()"><option value="ev_desc">EV high to low</option><option value="odds_desc">Odds high to low</option><option value="date_asc">Event start soonest</option><option value="bookmaker_asc">Bookmaker A-Z</option><option value="sport_asc">Sport A-Z</option></select></div>
+          <div class="compact-field"><label>Bookmaker</label><select id="scanFilterBookmaker" onchange="renderScannerResults()"><option value="">All</option></select></div>
+          <div class="compact-field"><label>Sport</label><select id="scanFilterSport" onchange="renderScannerResults()"><option value="">All</option></select></div>
+          <div class="compact-field"><label>Market</label><select id="scanFilterMarket" onchange="renderScannerResults()"><option value="">All</option></select></div>
+          <label class="toggleline"><input id="scanHideTaken" type="checkbox" onchange="renderScannerResults()" checked> Hide taken</label>
+          <label class="toggleline"><input id="scanShowHidden" type="checkbox" onchange="renderScannerResults()"> Show hidden</label>
+        </div>
+        <div id="scannerFilterNote" class="filter-note"></div>
+      </div>
+    </div>
+    <div id="scannerMetrics" class="grid hidden"></div>
+    <div id="scannerTable" class="tablewrap hidden"></div>
+    <div id="scannerCards" class="cards"></div>
+  </section>
+
+  <section id="page-tracker" class="hidden">
+    <div class="card">
+      <div class="row">
+        <button class="btn good" onclick="openTrackerModal()">Add Manual Bet</button>
+        <button class="btn secondary" onclick="exportTrackerCsv()">Export CSV</button>
+        <button class="btn secondary" onclick="exportTrackerExcel()">Export Excel</button>
+        <button class="btn secondary" onclick="exportBackupJson()">Export Backup</button>
+        <button class="btn secondary" onclick="triggerImportBackup()">Import Backup</button>
+        <button class="btn bulk-danger" onclick="confirmUntrackAllBets()">Untrack all bets</button>
+        <button class="btn secondary" onclick="openResultUpdatePopup()">Update all results</button>
+        <input id="backupImportFile" class="file-hidden" type="file" accept="application/json,.json" onchange="importBackupJson(event)">
+      </div>
+      <div class="tiny" style="margin-top:8px">CLV uses de-vig when both closing odds and opposite closing odds are entered. Otherwise it shows raw CLV from your odds vs manual closing odds.</div>
+    </div>
+
+    <div class="card">
+      <div class="tracker-filter-grid">
+        <div class="field"><label>Filter month</label><input type="month" id="filterMonth" onchange="renderTracker()" /></div>
+        <div class="field"><label>Filter bookmaker</label><select id="filterBookmaker" onchange="renderTracker()"></select></div>
+        <div class="field"><label>Filter league</label><select id="filterLeague" onchange="renderTracker()"></select></div>
+        <div class="field"><label>Filter status</label><select id="filterStatus" onchange="renderTracker()"><option value="">All</option><option value="open">Open</option><option value="win">Win</option><option value="loss">Loss</option><option value="push">Push</option></select></div>
+        <div class="field"><label>Filter sport</label><select id="filterSport" onchange="renderTracker()"></select></div>
+        <div class="field"><label>Filter CLV</label><select id="filterClv" onchange="renderTracker()"><option value="">All</option><option value="positive">Positive CLV</option><option value="negative">Negative CLV</option><option value="missing">Missing CLV</option></select></div>
+        <div class="field"><label>Min EV %</label><input type="number" id="filterMinEv" step="0.1" oninput="renderTracker()" placeholder="Any"></div>
+        <div class="field"><label>Max EV %</label><input type="number" id="filterMaxEv" step="0.1" oninput="renderTracker()" placeholder="Any"></div>
+      </div>
+    </div>
+
+    <div id="trackerMetrics" class="grid"></div>
+    <div id="trackerTable" class="tablewrap"></div>
+    <div id="trackerCards" class="cards"></div>
+  </section>
+
+  <section id="page-settings" class="hidden">
+    <div class="card">
+      <h2 style="margin:0 0 10px">API + Bankroll</h2>
+      <div class="field">
+        <label>Odds-API.io API key</label>
+        <div class="apiwrap"><input id="apiKey" type="password" placeholder="Paste API key here" /><button class="eye" onclick="toggleApiKeyVisibility()" title="Show/hide API key">👁️</button></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Minimum EV %</label><input id="minEvPercent" type="number" step="0.1" value="3" /></div>
+        <div class="field"><label>Starting bankroll EUR</label><input id="startingBankroll" type="number" step="0.01" value="1000" /></div>
+        <div class="field"><label>Default stake per bet</label><input id="defaultStake" type="number" step="0.01" value="1" /></div>
+        <div class="field"><label>Stake unit label</label><select id="stakeMode"><option value="units">Units</option><option value="eur">EUR</option></select></div>
+      </div>
+      <div class="row">
+        <button class="btn" onclick="saveSettings()">Save Settings</button>
+        <button class="btn secondary" onclick="fetchSettingsMirror()">Fetch Bookmakers + Sports</button>
+        <button class="btn secondary" onclick="testSelectedBookmakers()">Test Auto-Selected Bookmakers</button>
+        <button class="btn secondary" onclick="runScannerHealthCheck()">Scanner Health Check</button>
+      </div>
+      <div id="settingsStatus" class="status" style="margin-top:10px">Settings are saved in this browser only.</div>
+    </div>
+
+    <details class="card details-card" open><summary>Bookmakers</summary><div class="settings-section-body"><p class="settings-section-note">Auto-selected badges come from Odds-API.io if available. You can still manually tick your scan list.</p><input id="bookmakerSearch" class="settings-search" placeholder="Search bookmakers..." oninput="renderBookmakerList()"><div class="settings-actions"><button class="btn secondary" onclick="selectAllBookmakers()">Select all bookmakers</button><button class="btn secondary" onclick="unselectAllBookmakers()">Unselect all bookmakers</button></div><div id="bookmakerList" class="checkgrid"></div></div></details>
+    <details class="card details-card" open><summary>Sports</summary><div class="settings-section-body"><input id="sportSearch" class="settings-search" placeholder="Search sports..." oninput="renderSportList()"><div class="settings-actions"><button class="btn secondary" onclick="selectAllSports()">Select all sports</button><button class="btn secondary" onclick="unselectAllSports()">Unselect all sports</button></div><div id="sportList" class="checkgrid"></div></div></details>
+    <details class="card details-card" open><summary>Markets</summary><div class="settings-section-body"><div class="market-source-note"><b>Market groups</b> are the broad markets we started with in the Python scanner. Odds-API.io does not expose a standalone browser endpoint here that reliably lists every market before scanning, so exact API market names are learned from valuebet responses and shown under <b>Detected API markets</b>.</div><input id="marketSearch" class="settings-search" placeholder="Search manual market groups..." oninput="renderMarketList()"><div class="settings-actions"><button class="btn secondary" onclick="selectAllMarkets()">Select all market groups</button><button class="btn secondary" onclick="unselectAllMarkets()">Unselect market groups</button><button class="btn secondary" onclick="unselectAllFilters()">Unselect all filters</button></div><div id="marketList" class="checkgrid"></div><div class="detected-market-list"><h2 style="margin:14px 0 8px;font-size:18px">Detected API markets</h2><div class="tiny">These exact market names are collected from raw valuebet API responses during scans. Tick exact names to allow them directly.</div><input id="detectedMarketSearch" class="detected-search" placeholder="Search detected API markets..." oninput="renderDetectedMarketList()"><div class="settings-actions" style="margin-top:8px"><button class="btn secondary" onclick="selectAllDetectedMarkets()">Select all detected</button><button class="btn secondary" onclick="unselectAllDetectedMarkets()">Unselect detected</button></div><div id="detectedMarketList" class="checkgrid"></div></div><div class="field" style="margin-top:10px"><label>Extra custom market names, one per line</label><textarea id="customMarkets" placeholder="Example: Both Teams To Score"></textarea></div><button class="btn secondary" onclick="saveSettings()">Save Market Settings</button></div></details>
+    <details id="helpBottomCard" class="card details-card help-bottom-card"><summary>Help / Glossary</summary><div class="settings-section-body"><div class="help-grid"><div class="help-item"><b>EV</b><div>Expected value. Positive EV means your taken odds are better than the reference/fair price.</div></div><div class="help-item"><b>Min. Odds</b><div>The minimum playable odds implied by the valuebet calculation. If your taken odds are higher than this, the bet stays +EV.</div></div><div class="help-item"><b>CLV</b><div>Closing line value. Compares your taken price to the later/manual closing price.</div></div><div class="help-item"><b>Tracked vs Hidden</b><div>Tracked means you took the bet. Hidden means you cannot or do not want to bet it, so future scans suppress it.</div></div><div class="help-item"><b>Detected markets</b><div>Exact market names learned from raw API responses. Tick them when normal market groups reject a wanted bet.</div></div><div class="help-item"><b>Auto-scan</b><div>Works while this page/app stays open. A backend is required for reliable background alerts.</div></div></div></div></details>
+  </section>
+</div>
+
+<div id="trackerModal" class="modal"><div class="modalbox"><h2 id="modalTitle">Add Bet</h2><div id="trackerForm" class="grid"></div><div class="row"><button class="btn good" onclick="saveTrackerBetFromForm()">Save Bet</button><button class="btn secondary" onclick="closeTrackerModal()">Cancel</button></div></div></div>
+
+<div id="newBetPopup" class="popup"><div class="popupbox"><div class="popuphead"><div><h2 id="newBetPopupTitle">New valuebets</h2><div id="newBetPopupSubtitle" class="tiny"></div></div><button class="popupclose" onclick="closeNewBetPopup()">×</button></div><div id="newBetPopupBody"></div></div></div>
+<div id="confirmPopup" class="popup"><div class="popupbox" style="max-width:520px"><div class="popuphead"><div><h2 id="confirmPopupTitle">Are you sure?</h2><div id="confirmPopupSubtitle" class="tiny"></div></div><button class="popupclose" onclick="closeConfirmPopup()">×</button></div><div id="confirmPopupBody" class="confirm-note"></div><div class="confirm-actions"><button class="btn secondary" onclick="closeConfirmPopup()">No</button><button id="confirmPopupYes" class="btn bulk-danger">Yes</button></div></div></div>
+<div id="clvPopup" class="popup"><div class="popupbox" style="max-width:720px"><div class="popuphead"><div><h2>Update CLV</h2><div id="clvPopupSubtitle" class="tiny"></div></div><button class="popupclose" onclick="closeClvPopup()">×</button></div><div class="clv-form-grid threeway"><div class="field"><label>Closing line</label><input id="clvClosingLine" type="text" oninput="updateClvPreview()" placeholder="Optional, e.g. -0.5 / Over 2.5"></div><div class="field"><label>Closing odds selection</label><input id="clvClosingOdds" type="number" oninput="updateClvPreview()" step="0.01" placeholder="e.g. 1.95"></div><div class="field"><label>Opposite closing odds</label><input id="clvOppositeClosingOdds" type="number" oninput="updateClvPreview()" step="0.01" placeholder="2-way opposite"></div><div class="field"><label>Third closing odds</label><input id="clvThirdClosingOdds" type="number" oninput="updateClvPreview()" step="0.01" placeholder="Optional for 3-way"></div></div><div id="clvPreview" class="clv-preview">Enter closing odds to calculate CLV. Add opposite and third closing odds for de-vigged 3-way CLV.</div><div class="row" style="margin-top:12px"><button class="btn" onclick="saveClvFromPopup()">Save CLV</button><button class="btn secondary" onclick="closeClvPopup()">Cancel</button></div></div></div>
+<div id="rejectedPopup" class="popup"><div class="popupbox rejected-popup-wide"><div class="popuphead"><div><h2 id="rejectedPopupTitle">Filtered-out bets</h2><div id="rejectedPopupSubtitle" class="tiny"></div></div><button class="popupclose" onclick="closeRejectedPopup()">×</button></div><div id="rejectedPopupBody"></div></div></div>
+<div id="resultUpdatePopup" class="popup"><div class="popupbox" style="max-width:720px"><div class="popuphead"><div><h2>Update all results</h2><div class="tiny">Settlement and closing-line automation</div></div><button class="popupclose" onclick="closeResultUpdatePopup()">×</button></div><div id="resultUpdatePopupBody"></div></div></div>
+
+<div id="hideReasonPopup" class="popup"><div class="popupbox" style="max-width:620px"><div class="popuphead"><div><h2>Why hide this bet?</h2><div id="hideReasonSubtitle" class="tiny"></div></div><button class="popupclose" onclick="closeHideReasonPopup()">×</button></div><div class="hide-reason-list"><button class="reason-btn" onclick="confirmHideReason('Not available in Germany')">Not available in Germany <span>Bookie/market blocked or unavailable</span></button><button class="reason-btn" onclick="confirmHideReason('Limit too low')">Limit too low <span>Stake limit makes it unusable</span></button><button class="reason-btn" onclick="confirmHideReason('Market weird')">Market weird <span>Exotic, unclear or suspicious market</span></button><button class="reason-btn" onclick="confirmHideReason('Odds changed')">Odds changed <span>Price moved before betting</span></button><button class="reason-btn" onclick="confirmHideReason('Need check')">Need check <span>Hide for now, inspect later</span></button></div><div class="field"><label>Custom reason</label><input id="hideReasonCustom" type="text" placeholder="Optional custom reason"></div><div class="row"><button class="btn" onclick="confirmHideReason(qs('hideReasonCustom').value||'Other')">Hide bet</button><button class="btn secondary" onclick="closeHideReasonPopup()">Cancel</button></div></div></div>
+<div id="trackOddsPopup" class="popup"><div class="popupbox" style="max-width:620px"><div class="popuphead"><div><h2>Track bet</h2><div id="trackOddsSubtitle" class="tiny"></div></div><button class="popupclose" onclick="closeTrackOddsPopup()">×</button></div><div class="track-choice-grid"><button id="trackDisplayedBtn" class="btn" onclick="confirmTrackDisplayedOdds()">Use displayed odds</button><div class="field"><label>Alternative odds taken</label><input id="trackAlternativeOdds" type="number" step="0.01" placeholder="Enter actual odds" oninput="updateTrackOddsPreview()"></div><div id="trackOddsPreview" class="track-ev-preview">Enter alternative odds to preview recalculated EV.</div><button class="btn secondary" onclick="confirmTrackAlternativeOdds()">Track with alternative odds</button></div></div></div>
+<script>
+const BASE_URL='https://api.odds-api.io/v3';
+const STORAGE_SETTINGS='vbt_settings_v4'; const STORAGE_TRACKER='vbt_tracker_v4'; const STORAGE_SCAN='vbt_last_scan_v4'; const STORAGE_HIDDEN='vbt_hidden_bets_v13'; const STORAGE_HIDDEN_REASONS='vbt_hidden_reasons_v29'; const STORAGE_AUTOSCAN='vbt_autoscan_v13'; const STORAGE_NEW='vbt_new_bets_v19';
+const DEFAULT_SPORTS={football:'Football',basketball:'Basketball',tennis:'Tennis','american-football':'American Football',baseball:'Baseball','ice-hockey':'Ice Hockey',darts:'Darts',boxing:'Boxing',handball:'Handball',volleyball:'Volleyball',snooker:'Snooker',rugby:'Rugby',golf:'Golf',cycling:'Cycling',cricket:'Cricket'};
+const MARKET_OPTIONS=[{id:'moneyline',label:'ML / Moneyline',names:['ml','moneyline','match winner','winner','1x2']},{id:'totals',label:'Totals',names:['totals','total','over/under','over under']},{id:'spreads',label:'Spreads / Handicap',names:['spread','spreads','handicap','handicaps','asian handicap','point spread']},{id:'football_goalscorer',label:'Anytime Goalscorer',names:['anytime goalscorer','anytime goal scorer','player to score anytime','goalscorer anytime'],sports:['football']},{id:'basketball_player_points',label:'Basketball Player Points',names:['player points','player total points','points'],sports:['basketball']},{id:'btts',label:'BTTS',names:['btts','both teams to score']},{id:'team_totals',label:'Team Totals',names:['team totals','team total']},{id:'corners',label:'Corners',names:['corners','corner']},{id:'bookings',label:'Bookings / Cards',names:['bookings','cards','yellow cards']},{id:'player_props',label:'Player Props',names:['player props','player prop','player assists','player rebounds','player points','player total points','player shots','player shots on target','player to score','player to score anytime','anytime goalscorer','anytime goal scorer','goalscorer','goal scorer','to score']}];
+let editingBetId=null;
+function defaults(){return{apiKey:'',minEvPercent:3,startingBankroll:1000,defaultStake:1,stakeMode:'units',bookmakers:['Tipico DE','Winamax FR'],bookmakerMeta:[],sports:Object.keys(DEFAULT_SPORTS),sportMeta:Object.entries(DEFAULT_SPORTS).map(([slug,name])=>({slug,name,active:null})),markets:['moneyline','totals','spreads','football_goalscorer','basketball_player_points'],customMarkets:'',detectedMarkets:[],detectedMarketsSelected:[]}}
+function getSettings(){return Object.assign(defaults(),JSON.parse(localStorage.getItem(STORAGE_SETTINGS)||'{}'))} function setSettings(s){localStorage.setItem(STORAGE_SETTINGS,JSON.stringify(s))} function getTracker(){return JSON.parse(localStorage.getItem(STORAGE_TRACKER)||'[]')} function setTracker(t){localStorage.setItem(STORAGE_TRACKER,JSON.stringify(t))} function getHiddenKeys(){return JSON.parse(localStorage.getItem(STORAGE_HIDDEN)||'[]')} function setHiddenKeys(keys){localStorage.setItem(STORAGE_HIDDEN,JSON.stringify([...new Set(keys)].filter(Boolean)))} function getAutoScanSettings(){return Object.assign({enabled:false,intervalMin:5,notify:true,sound:false,vibrate:true},JSON.parse(localStorage.getItem(STORAGE_AUTOSCAN)||'{}'))} function setAutoScanSettings(s){localStorage.setItem(STORAGE_AUTOSCAN,JSON.stringify(s))} function getHiddenReasons(){return JSON.parse(localStorage.getItem(STORAGE_HIDDEN_REASONS)||'{}')} function setHiddenReasons(m){localStorage.setItem(STORAGE_HIDDEN_REASONS,JSON.stringify(m||{}))}
+function qs(id){return document.getElementById(id)} function clean(v){return v==null?'':String(v).trim()} function norm(v){return clean(v).toLowerCase()} function num(v){let n=Number(v);return Number.isFinite(n)?n:null} function fmtPct(v){return v==null||!Number.isFinite(Number(v))?'':(Number(v)*100).toFixed(2)+'%'} function fmt2(v){return v==null||!Number.isFinite(Number(v))?'':Number(v).toFixed(2)} function nowIso(){return new Date().toISOString()} function makeId(){try{if(window.crypto&&crypto.randomUUID)return crypto.randomUUID()}catch(e){} return 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10)} function escapeHtml(v){return clean(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')} function jsStr(v){return clean(v).replaceAll('\\','\\\\').replaceAll("'","\\'").replaceAll('\n',' ')}
+
+function sportEmojiBySlug(slug){
+  const map={football:'⚽️',basketball:'🏀',tennis:'🎾','american-football':'🏈',baseball:'⚾️','ice-hockey':'🏒',darts:'🎯',boxing:'🥊',handball:'🤾',volleyball:'🏐',snooker:'🎱',rugby:'🏉',golf:'⛳️',cycling:'🚴',cricket:'🏏',mma:'🥊',esports:'🎮'};
+  return map[clean(slug)]||'🏅';
+}
+function sportEmojiByName(name){
+  const n=norm(name);
+  if(n.includes('football')&&!n.includes('american'))return '⚽️';
+  if(n.includes('basket'))return '🏀'; if(n.includes('tennis'))return '🎾'; if(n.includes('american'))return '🏈';
+  if(n.includes('baseball'))return '⚾️'; if(n.includes('hockey'))return '🏒'; if(n.includes('darts'))return '🎯';
+  if(n.includes('boxing'))return '🥊'; if(n.includes('handball'))return '🤾'; if(n.includes('volley'))return '🏐';
+  if(n.includes('snooker'))return '🎱'; if(n.includes('rugby'))return '🏉'; if(n.includes('golf'))return '⛳️';
+  if(n.includes('cycling'))return '🚴'; if(n.includes('cricket'))return '🏏'; return '🏅';
+}
+function sportDisplayHtml(row){
+  const icon=row.SportSlug?sportEmojiBySlug(row.SportSlug):sportEmojiByName(row.sport||row.Sport||'');
+  const label=row.Sport||row.sport||'';
+  return `<span class="sportcell"><span class="sport-emoji">${icon}</span>${escapeHtml(label)}</span>`;
+}
+function countryCodeFromName(country){
+  const c=norm(country);
+  const map={germany:'DE',deutschland:'DE',de:'DE',france:'FR',fr:'FR',spain:'ES',es:'ES',italy:'IT',it:'IT','united kingdom':'GB',uk:'GB',england:'GB','great britain':'GB',gb:'GB',usa:'US','united states':'US',us:'US',canada:'CA',ca:'CA',australia:'AU',au:'AU',austria:'AT',at:'AT',switzerland:'CH',ch:'CH',netherlands:'NL',holland:'NL',nl:'NL',belgium:'BE',be:'BE',portugal:'PT',pt:'PT',denmark:'DK',dk:'DK',sweden:'SE',se:'SE',norway:'NO',no:'NO',finland:'FI',fi:'FI',poland:'PL',pl:'PL',ireland:'IE',ie:'IE',turkey:'TR',tr:'TR',brazil:'BR',br:'BR',argentina:'AR',ar:'AR',mexico:'MX',mx:'MX',japan:'JP',jp:'JP',china:'CN',cn:'CN',india:'IN',in:'IN'};
+  if(map[c])return map[c];
+  if(/^[a-z]{2}$/.test(c))return c.toUpperCase();
+  return '';
+}
+function flagEmoji(country){
+  const code=countryCodeFromName(country);
+  if(!code)return '';
+  return code.replace(/./g,ch=>String.fromCodePoint(127397+ch.charCodeAt(0)));
+}
+function countryDisplayHtml(country){
+  const flag=flagEmoji(country);
+  if(!country&&!flag)return '';
+  return `<span class="countrycell">${flag?`<span class="flag-emoji">${flag}</span>`:''}${escapeHtml(country)}</span>`;
+}
+function leagueDisplayHtml(country,league){
+  const flag=flagEmoji(country);
+  return `<span class="leaguecell">${flag?`<span class="flag-emoji" title="${escapeHtml(country)}">${flag}</span>`:''}${escapeHtml(league)}</span>`;
+}
+function bookmakerSlot(name){
+  const list=(getSettings().bookmakers||[]).map(x=>norm(x));
+  const idx=list.indexOf(norm(name));
+  return idx>=0?(idx%4)+1:0;
+}
+function compactBookmakerBadgeHtml(name){return `<span class="meta-chip tracker-bookie-chip">${escapeHtml(name||'Bookmaker')}</span>`}
+function bookmakerBadgeHtml(name){
+  const slot=bookmakerSlot(name);
+  return `<span class="bookie-badge bookie-slot-${slot||0}">${escapeHtml(name)}</span>`;
+}
+
+function normalizeBetKeyPart(v){
+  return norm(v).replace(/\s+/g,' ').trim();
+}
+function betKeyFromParts(bookmaker,eventId,event,market,selection,line){
+  // Robust key: intentionally excludes scan timestamp/date formatting.
+  // If the API eventId exists, it is the main anchor. Otherwise event name is used.
+  return [bookmaker,eventId||event,market,selection,line].map(normalizeBetKeyPart).join('|');
+}
+function betKeyFromScanRow(r){
+  return betKeyFromParts(r.Bookmaker,r.EventID,r.Event,r.Market,r.Selection,r.LinePlayer||r.Line);
+}
+function betKeyFromTrackerBet(b){
+  if(b.scanKey)return clean(b.scanKey);
+  return betKeyFromParts(b.bookmaker,b.eventId,b.event,b.market,b.selection,b.line);
+}
+function takenKeySet(){
+  return new Set(getTracker().map(betKeyFromTrackerBet).filter(Boolean));
+}
+function isScanRowTaken(r){
+  const key=betKeyFromScanRow(r);
+  return takenKeySet().has(key);
+}
+function takenBadgeHtml(taken){
+  return taken ? '<span class="taken-badge">✓ Taken</span>' : '<span class="not-taken-badge">Not taken</span>';
+}
+function getNewKeys(){return JSON.parse(localStorage.getItem(STORAGE_NEW)||'[]')} function setNewKeys(keys){localStorage.setItem(STORAGE_NEW,JSON.stringify([...new Set(keys)].filter(Boolean)))}
+function newKeySet(){return new Set(getNewKeys())}
+function isScanRowNew(r){return newKeySet().has(betKeyFromScanRow(r))}
+function newBadgeHtml(row){return isScanRowNew(row)?'<span class="new-badge">New</span>':''}
+function evTierClass(ev){const v=num(ev);if(v==null)return 'ev-tier-low';if(v>=0.10)return 'ev-tier-high';if(v>=0.05)return 'ev-tier-mid';return 'ev-tier-low'}
+function evHtml(ev){return `<span class="${evTierClass(ev)}">${fmtPct(ev)}</span>`}
+function isTotalLikeMarket(market){
+  const m=norm(market);
+  if(!m)return false;
+  if(m.includes('goalscorer')||m.includes('goal scorer')||m.includes('to score'))return false;
+  return m.includes('total')||m.includes('over/under')||m.includes('over under')||/\bo\s*\/\s*u\b/.test(m)||/\bou\b/.test(m)||m==='totals'||m==='total'||m.includes('match goals');
+}
+function stripPlayerPropPrefix(value){
+  let v=clean(value);
+  if(!v)return v;
+  v=v.replace(/^\s*player\s*props?\s*(?:[:·\-–—|/]\s*)?/i,'');
+  v=v.replace(/^\s*props?\s*(?:[:·\-–—|/]\s*)?/i,'');
+  v=v.replace(/\s*(?:[:·\-–—|/]\s*)?player\s*props?\s*$/i,'');
+  return clean(v)||clean(value);
+}
+function displaySelectionParts(selection,market='',line=''){
+  let raw=clean(selection);
+  if(norm(market)==='player props')raw=stripPlayerPropPrefix(raw);
+  const s=norm(raw);
+  const l=clean(line);
+  if(isTotalLikeMarket(market)){
+    if(['home','over','o','plus','+'].includes(s))return {text:'Over',line:l,kind:'over'};
+    if(['away','under','u','minus','-'].includes(s))return {text:'Under',line:l,kind:'under'};
+    if(s.startsWith('over'))return {text:raw,line:(l&&raw.includes(l))?'':l,kind:'over'};
+    if(s.startsWith('under'))return {text:raw,line:(l&&raw.includes(l))?'':l,kind:'under'};
+  }
+  if(norm(market)==='player props' && (!raw || norm(raw)==='player props'))raw='Player';
+  return {text:raw||'Selection',line:l,kind:''};
+}
+function displaySelectionText(selection,market='',line=''){
+  const p=displaySelectionParts(selection,market,line);
+  return p.line?`${p.text} ${p.line}`:p.text;
+}
+function displaySelectionHtml(selection,market='',line=''){
+  const p=displaySelectionParts(selection,market,line);
+  if(p.kind)return `<span class="ou-word">${escapeHtml(p.text)}</span>${p.line?` <span class="ou-line">${escapeHtml(p.line)}</span>`:''}`;
+  return `${escapeHtml(p.text)}${p.line?` <span class="line-part">${escapeHtml(p.line)}</span>`:''}`;
+}
+function linkWrap(html,url){return url?`<a class="pill-link" target="_blank" href="${escapeHtml(url)}">${html}</a>`:html}
+function selectionPillHtml(selection,line='',market='',url=''){
+  const p=displaySelectionParts(selection,market,line);
+  const html=`<span class="selection-pill selection-only ${p.kind?'over-under':''}"><span class="sel-part ${p.kind?'ou-part':''}">${escapeHtml(p.text)}</span></span>`;
+  return linkWrap(html,url);
+}
+function fieldPillHtml(value,type='',url=''){
+  const v=clean(value);
+  const shown=v||'—';
+  const html=`<span class="field-pill ${type}-field ${v?'':'empty-field'}" title="${escapeHtml(shown)}">${escapeHtml(shown)}</span>`;
+  return linkWrap(html,url);
+}
+function displayLineValue(row){
+  const lp=clean(row.LinePlayer||row.Line||'');
+  if(lp)return lp;
+  const mk=norm(row.Market);
+  if(['ml','moneyline','match winner','winner','1x2','h2h'].includes(mk))return 'h2h';
+  return '';
+}
+function marketPillHtml(value,url=''){return fieldPillHtml(value,'market',url)}
+function linePillHtml(value,url=''){return fieldPillHtml(value,'line',url)}
+function oddsLinkHtml(row,cls='odds-link'){const odds=fmt2(row.Odds);return row.BookmakerLink?`<a class="${cls}" target="_blank" href="${escapeHtml(row.BookmakerLink)}">${odds}</a>`:odds}
+function clearNewKeyForRow(r){const key=betKeyFromScanRow(r);setNewKeys(getNewKeys().filter(k=>k!==key))}
+function hiddenKeySet(){return new Set(getHiddenKeys())}
+function isScanRowHidden(r){return hiddenKeySet().has(betKeyFromScanRow(r))}
+function hiddenBadgeHtml(hidden){return hidden ? '<span class="hidden-badge">Hidden</span>' : ''}
+let pendingHideIndex=null;
+function hideScanRow(i){
+  let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');let r=saved.rows&&saved.rows[i];if(!r)return;
+  pendingHideIndex=i;
+  qs('hideReasonSubtitle').innerHTML=`${escapeHtml(r.Bookmaker)} · ${escapeHtml(r.Event)} · ${displaySelectionText(r.Selection,r.Market,r.LinePlayer||r.Line)} @ ${fmt2(r.Odds)}`;
+  qs('hideReasonCustom').value='';
+  qs('hideReasonPopup').classList.add('show');
+}
+function closeHideReasonPopup(){pendingHideIndex=null;qs('hideReasonPopup')?.classList.remove('show')}
+function confirmHideReason(reason){
+  if(pendingHideIndex==null)return;
+  let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');let r=saved.rows&&saved.rows[pendingHideIndex];if(!r)return closeHideReasonPopup();
+  const key=betKeyFromScanRow(r);
+  setHiddenKeys(getHiddenKeys().concat([key]));
+  const reasons=getHiddenReasons();reasons[key]=clean(reason)||'Other';setHiddenReasons(reasons);
+  clearNewKeyForRow(r);closeHideReasonPopup();renderScannerResults();
+}
+function unhideScanRow(i){let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');let r=saved.rows&&saved.rows[i];if(!r)return;let key=betKeyFromScanRow(r);setHiddenKeys(getHiddenKeys().filter(k=>k!==key));let reasons=getHiddenReasons();delete reasons[key];setHiddenReasons(reasons);renderScannerResults()}
+
+function countBy(rows,keyFn){
+  const counts={};
+  rows.forEach(r=>{const k=clean(keyFn(r))||'Unknown';counts[k]=(counts[k]||0)+1});
+  return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+}
+function summaryListHtml(entries,limit=8){
+  if(!entries.length)return '<div class="summary-list"><div class="summary-row"><span>None</span><strong>0</strong></div></div>';
+  const shown=entries.slice(0,limit).map(([k,v])=>`<div class="summary-row"><span title="${escapeHtml(k)}">${escapeHtml(k)}</span><strong>${v}</strong></div>`).join('');
+  const rest=entries.length>limit?`<div class="summary-row"><span>Other</span><strong>${entries.slice(limit).reduce((a,x)=>a+x[1],0)}</strong></div>`:'';
+  return `<div class="summary-list">${shown}${rest}</div>`;
+}
+function summaryChipsHtml(entries,limit=8){
+  if(!entries.length)return '<span class="scan-summary-chip">None <strong>0</strong></span>';
+  const shown=entries.slice(0,limit).map(([k,v])=>`<span class="scan-summary-chip" title="${escapeHtml(k)}">${escapeHtml(k)} <strong>${v}</strong></span>`).join('');
+  const rest=entries.length>limit?`<span class="scan-summary-chip">Other <strong>${entries.slice(limit).reduce((a,x)=>a+x[1],0)}</strong></span>`:'';
+  return shown+rest;
+}
+function scannerStatusSummaryHtml(rows,saved,visibleRows=null){
+  const byBook=countBy(rows,r=>r.Bookmaker);
+  const bySport=countBy(rows,r=>r.Sport);
+  const byMarket=countBy(rows,r=>r.Market);
+  const takenCount=rows.filter(r=>isScanRowTaken(r)).length;
+  const hiddenCount=rows.filter(r=>isScanRowHidden(r)).length;
+  const newCount=rows.filter(r=>isScanRowNew(r)&&!isScanRowTaken(r)&&!isScanRowHidden(r)).length;
+  const openCount=Math.max(rows.length-takenCount-hiddenCount,0);
+  const lastScan=saved.ts?fmtDate(saved.ts):'-';
+  const stats=saved.stats||[];
+  const scanned=stats.length?stats.length:getSettings().bookmakers.length;
+  const returnedTotal=stats.reduce((a,x)=>a+(num(x.returned)||0),0);
+  const keptTotal=stats.reduce((a,x)=>a+(num(x.kept)||0),0);
+  const removedSport=stats.reduce((a,x)=>a+(num(x.removedSport)||0),0);
+  const removedMarket=stats.reduce((a,x)=>a+(num(x.removedMarket)||0),0);
+  const removedEv=stats.reduce((a,x)=>a+(num(x.removedEv)||0),0);
+  const removedNoEv=stats.reduce((a,x)=>a+(num(x.removedNoEv)||0),0);
+  const bookmakerDiag=stats.map(x=>`<span class="diag-chip diag-click" onclick="event.stopPropagation();openRejectedPopup('${jsStr(x.bookmaker||'Unknown')}')" title="Click to inspect filtered-out rows. Returned ${x.returned||0}, kept ${x.kept||0}${x.error?`, error: ${escapeHtml(x.error)}`:''}">${escapeHtml(x.bookmaker||'Unknown')} <b>${x.kept||0}/${x.returned||0}</b></span>`).join('')||'<span class="diag-chip">No stats</span>';
+  const visibleLine=visibleRows?` · <b>Displayed:</b> ${visibleRows.length}`:'';
+  return `<details class="scan-summary-details"><summary><span class="scan-summary-compact"><b>Scan complete</b><span class="scan-summary-chip">Total <strong>${rows.length}</strong></span><span class="scan-summary-chip">New <strong>${newCount}</strong></span><span class="scan-summary-chip">Available <strong>${openCount}</strong></span><span class="scan-summary-chip">Taken <strong>${takenCount}</strong></span><span class="scan-summary-chip warn">Hidden <strong>${hiddenCount}</strong></span></span><span class="scan-summary-diagnostics"><span class="scan-summary-topic">Diagnostics:</span>${bookmakerDiag}</span></summary><div class="scan-summary scan-summary-body">
+    <div class="scan-summary-line"><b>Total:</b> ${rows.length} valuebets${visibleLine} · <b>New:</b> ${newCount} · <b>Taken:</b> ${takenCount} · <b>Hidden:</b> ${hiddenCount} · <b>Available:</b> ${openCount} · <b>Last scan:</b> ${escapeHtml(lastScan)} · <b>Bookmakers scanned:</b> ${scanned}</div>
+    <div class="scan-summary-section"><span class="scan-summary-topic">Raw API:</span><span class="diag-chip">Returned <b>${returnedTotal}</b></span><span class="diag-chip">Kept <b>${keptTotal}</b></span><span class="diag-chip">Sport filtered <b>${removedSport}</b></span><span class="diag-chip">Market filtered <b>${removedMarket}</b></span><span class="diag-chip">EV filtered <b>${removedEv}</b></span><span class="diag-chip">No EV <b>${removedNoEv}</b></span></div>
+    <div class="scan-summary-section"><span class="scan-summary-topic">Bookmakers:</span>${summaryChipsHtml(byBook,6)}</div>
+    <div class="scan-summary-section"><span class="scan-summary-topic">Sports:</span>${summaryChipsHtml(bySport,10)}</div>
+    <div class="scan-summary-section"><span class="scan-summary-topic">Markets:</span>${summaryChipsHtml(byMarket,10)}</div>
+  </div></details>`;
+}
+function openHelpPopup(){const help=qs('helpBottomCard'); if(help){help.open=true; help.scrollIntoView({behavior:'smooth',block:'start'});}} function closeHelpPopup(){}
+function toggleFaqCard(open=true){const help=qs('helpBottomCard'); if(!help)return; help.open=!!open; if(open) help.scrollIntoView({behavior:'smooth',block:'start'});}
+function updateFloatingBars(page=null){
+  const active=page||(['scanner','tracker','settings'].find(x=>!qs('page-'+x)?.classList.contains('hidden'))||'scanner');
+  qs('mobileQuickbar')?.classList.toggle('show',active==='scanner');
+  qs('settingsQuickbar')?.classList.toggle('show',active==='settings');
+  updateQuickAutoButton();
+}
+function updateQuickAutoButton(){
+  const btn=qs('quickAutoBtn');
+  const wrap=qs('quickAutoWrap');
+  if(!btn)return;
+  const enabled=!!getAutoScanSettings().enabled;
+  const countdown=(enabled&&autoScanNextRunAt)?formatCountdown(autoScanNextRunAt-Date.now()):'';
+  btn.innerHTML=enabled?`<span>Auto ON</span><span class="quickbar-countdown">${countdown}</span>`:'<span>Auto OFF</span><span class="quickbar-countdown">Tap to enable</span>';
+  btn.classList.toggle('quickbar-auto-enabled',enabled);
+  btn.classList.toggle('quickbar-auto-disabled',!enabled);
+  btn.classList.toggle('secondary',!enabled);
+  if(wrap) wrap.classList.toggle('off',!enabled);
+}
+function toggleAutoScanFromQuickbar(){const el=qs('autoScanEnabled'); if(!el)return; el.checked=!el.checked; saveAutoScanSettings(); setupAutoScanTimer(); updateFloatingBars('scanner');}
+function showPage(p){['scanner','tracker','settings'].forEach(x=>qs('page-'+x).classList.toggle('hidden',x!==p));document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',['scanner','tracker','settings'][i]===p)); updateFloatingBars(p); if(p==='settings') renderSettings(); if(p==='tracker') renderTracker(); if(p==='scanner') renderScannerResults();}
+function toggleApiKeyVisibility(){const el=qs('apiKey');const btn=document.querySelector('.eye'); el.type=el.type==='password'?'text':'password'; if(btn)btn.textContent=el.type==='password'?'👁️':'🙈'}
+function mergeVisibleCheckboxSelection(selector,current){const boxes=[...document.querySelectorAll(selector)];const visible=new Set(boxes.map(cb=>cb.value));const selected=new Set((current||[]).filter(v=>!visible.has(v)));boxes.forEach(cb=>{if(cb.checked)selected.add(cb.value)});return [...selected];}
+function saveSettings(){let s=getSettings();s.apiKey=qs('apiKey').value.trim();s.minEvPercent=Number(qs('minEvPercent').value||3);s.startingBankroll=Number(qs('startingBankroll').value||0);s.defaultStake=Number(qs('defaultStake').value||1);s.stakeMode=qs('stakeMode').value;s.bookmakers=mergeVisibleCheckboxSelection('.bookmaker-cb',s.bookmakers);s.sports=mergeVisibleCheckboxSelection('.sport-cb',s.sports);s.markets=mergeVisibleCheckboxSelection('.market-cb',s.markets);s.detectedMarketsSelected=mergeVisibleCheckboxSelection('.detected-market-cb',s.detectedMarketsSelected);s.customMarkets=qs('customMarkets').value;setSettings(s);qs('settingsStatus').textContent='Saved all settings.';renderSettings();}
+function renderSettings(){let s=getSettings();qs('apiKey').value=s.apiKey||'';qs('minEvPercent').value=s.minEvPercent;qs('startingBankroll').value=s.startingBankroll;qs('defaultStake').value=s.defaultStake;qs('stakeMode').value=s.stakeMode;qs('customMarkets').value=s.customMarkets||'';renderBookmakerList();renderSportList();renderMarketList();renderDetectedMarketList();updateFloatingBars('settings');}
+function renderBookmakerList(){let s=getSettings();let meta=s.bookmakerMeta&&s.bookmakerMeta.length?s.bookmakerMeta:s.bookmakers.map(name=>({name,active:null,autoSelected:false}));const q=norm(qs('bookmakerSearch')?.value||'');if(q)meta=meta.filter(b=>norm(b.name).includes(q));qs('bookmakerList').innerHTML=meta.map(b=>{let active=b.active===true?'active':b.active===false?'inactive':'unknown';let badge=b.active===true?'good':b.active===false?'bad':'';let checked=s.bookmakers.includes(b.name)?'checked':'';let auto=b.autoSelected?'<span class="badge auto">auto-selected</span>':'';return `<label class="checkitem"><span class="left"><input class="bookmaker-cb" type="checkbox" value="${escapeHtml(b.name)}" ${checked}>${escapeHtml(b.name)}</span><span>${auto}<span class="badge ${badge}">${active}</span></span></label>`}).join('')||'<div class="tiny">No matching bookmakers. Fetch bookmakers or clear the search.</div>'}
+function renderSportList(){let s=getSettings();let meta=s.sportMeta&&s.sportMeta.length?s.sportMeta:Object.entries(DEFAULT_SPORTS).map(([slug,name])=>({slug,name}));const q=norm(qs('sportSearch')?.value||'');if(q)meta=meta.filter(sp=>norm(sp.name||sp.slug).includes(q)||norm(sp.slug).includes(q));qs('sportList').innerHTML=meta.map(sp=>{let checked=s.sports.includes(sp.slug)?'checked':'';let active=sp.active===true?'<span class="badge good">active</span>':sp.active===false?'<span class="badge bad">inactive</span>':'<span class="badge">unknown</span>';return `<label class="checkitem"><span class="left"><input class="sport-cb" type="checkbox" value="${escapeHtml(sp.slug)}" ${checked}>${escapeHtml(sp.name||sp.slug)}</span>${active}</label>`}).join('')||'<div class="tiny">No matching sports. Clear the search.</div>'}
+function renderMarketList(){let s=getSettings();let markets=MARKET_OPTIONS.slice();const q=norm(qs('marketSearch')?.value||'');if(q)markets=markets.filter(m=>norm(m.label).includes(q)||(m.names||[]).some(x=>norm(x).includes(q)));qs('marketList').innerHTML=markets.map(m=>`<label class="checkitem"><span class="left"><input class="market-cb" type="checkbox" value="${m.id}" ${s.markets.includes(m.id)?'checked':''}>${escapeHtml(m.label)}</span><span class="badge">group</span></label>`).join('')||'<div class="tiny">No matching market groups. Clear the search.</div>'}
+function detectedMarketKey(name){return norm(name)}
+function mergeDetectedMarkets(existing,incoming){
+  const map=new Map();
+  (existing||[]).forEach(m=>{if(m&&m.name)map.set(detectedMarketKey(m.name),Object.assign({name:m.name,count:0,bookmakers:[],sports:[]},m))});
+  (incoming||[]).forEach(m=>{
+    if(!m||!m.name)return;
+    const key=detectedMarketKey(m.name);
+    const old=map.get(key)||{name:m.name,count:0,bookmakers:[],sports:[]};
+    old.count=(Number(old.count)||0)+(Number(m.count)||1);
+    old.bookmakers=[...new Set([...(old.bookmakers||[]),...(m.bookmakers||[]).filter(Boolean)])];
+    old.sports=[...new Set([...(old.sports||[]),...(m.sports||[]).filter(Boolean)])];
+    map.set(key,old);
+  });
+  return [...map.values()].sort((a,b)=>clean(a.name).localeCompare(clean(b.name)));
+}
+function renderDetectedMarketList(){
+  const s=getSettings();
+  const saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"detectedMarkets":[]}');
+  let markets=mergeDetectedMarkets(s.detectedMarkets||[],saved.detectedMarkets||[]);
+  const q=norm(qs('detectedMarketSearch')?.value||'');
+  if(q)markets=markets.filter(m=>norm(m.name).includes(q)||(m.bookmakers||[]).some(x=>norm(x).includes(q))||(m.sports||[]).some(x=>norm(x).includes(q)));
+  const el=qs('detectedMarketList'); if(!el)return;
+  if(!markets.length){el.innerHTML='<div class="tiny">No matching detected markets. Run a scan first or clear the search.</div>';return;}
+  const selected=new Set(s.detectedMarketsSelected||[]);
+  el.innerHTML=markets.map(m=>{
+    const key=detectedMarketKey(m.name);
+    const meta=[(m.bookmakers||[]).slice(0,2).join(', '),(m.sports||[]).slice(0,2).join(', ')].filter(Boolean).join(' · ');
+    return `<label class="checkitem"><span class="left"><input class="detected-market-cb" type="checkbox" value="${escapeHtml(key)}" ${selected.has(key)?'checked':''}>${escapeHtml(m.name)} <span class="detected-market-count">${m.count||1}</span></span><span class="badge" title="${escapeHtml(meta)}">detected</span></label>`;
+  }).join('');
+}
+function selectAllDetectedMarkets(){let s=getSettings();const saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"detectedMarkets":[]}');const markets=mergeDetectedMarkets(s.detectedMarkets||[],saved.detectedMarkets||[]);s.detectedMarketsSelected=markets.map(m=>detectedMarketKey(m.name));setSettings(s);renderDetectedMarketList();qs('settingsStatus').textContent='All detected API markets selected.'}
+function unselectAllDetectedMarkets(){let s=getSettings();s.detectedMarketsSelected=[];setSettings(s);renderDetectedMarketList();qs('settingsStatus').textContent='Detected API markets unselected.'}
+
+function isLikelyGenericPlayerPropName(name){
+  const n=norm(name);
+  return ['player props','player prop','player markets','player special','player specials','props'].includes(n);
+}
+function isPlayerPropMarket(slug,marketName,market={}){
+  const n=norm(marketName);
+  const playerKeys=['player','participant','label','nameLabel','runner','selection'];
+  const hasPlayer=playerKeys.some(k=>market&&clean(market[k]));
+  const propPhrases=[
+    'player props','player prop','player assists','player assist','player rebounds','player rebound','player points','player total points',
+    'player shots','player shot','shots on target','shot on target','player to score','to score anytime','anytime goalscorer',
+    'anytime goal scorer','goalscorer','goal scorer','first goalscorer','last goalscorer','to score','touchdown scorer',
+    'player threes','player 3 pointers','player tackles','player passes','player rushing','player receiving'
+  ];
+  if(propPhrases.some(p=>n.includes(p)))return true;
+  if(hasPlayer&&/(points|rebounds|assists|shots|goals|score|scorer|tackles|passes|rushing|receiving|threes|3 pointers)/i.test(n))return true;
+  return false;
+}
+function normalizedMarketNameForFiltering(slug,marketName,market={}){
+  return isPlayerPropMarket(slug,marketName,market)?'Player Props':clean(marketName);
+}
+function playerPropSelectionFromMarket(marketName,market={},side=''){
+  const name=stripPlayerPropPrefix(clean(marketName));
+  const s=stripPlayerPropPrefix(clean(side));
+  const player=stripPlayerPropPrefix(clean(market.player||market.participant||market.label||market.nameLabel||market.runner||market.selection));
+  const genericName=!name||isLikelyGenericPlayerPropName(name)||norm(name)==='player props';
+  if(!genericName)return name;
+  if(player&&s&&!/^(home|away|yes|no|over|under)$/i.test(s))return stripPlayerPropPrefix(`${player} ${s}`.trim());
+  if(player)return player;
+  return s||'Player Prop';
+}
+function playerPropLineFromMarket(market={},side=''){
+  const line=extractMarketLine(market);
+  const s=norm(side);
+  if(line!==''&&(s==='over'||s==='under'))return `${clean(side)} ${line}`;
+  if(line!=='')return line;
+  return '';
+}
+
+function recordDetectedMarket(list,raw,bm){
+  const market=raw&&raw.market||{}; let name=clean(market.name||market.marketName||raw.marketName||'');
+  if(!name)return;
+  const slug=extractSportSlug(raw);
+  name=normalizedMarketNameForFiltering(slug,name,market);
+  const key=detectedMarketKey(name);
+  let item=list.find(x=>detectedMarketKey(x.name)===key);
+  if(!item){item={name,count:0,bookmakers:[],sports:[]};list.push(item)}
+  item.count++;
+  if(bm&&!item.bookmakers.includes(bm))item.bookmakers.push(bm);
+  const sp=sportName(slug);
+  if(sp&&!item.sports.includes(sp))item.sports.push(sp);
+}
+
+function setCheckboxes(selector,checked){document.querySelectorAll(selector).forEach(cb=>cb.checked=checked)}
+function allBookmakerNames(){let s=getSettings();let meta=s.bookmakerMeta&&s.bookmakerMeta.length?s.bookmakerMeta:s.bookmakers.map(name=>({name}));return [...new Set(meta.map(b=>clean(b.name)).filter(Boolean))]}
+function allSportSlugs(){let s=getSettings();let meta=s.sportMeta&&s.sportMeta.length?s.sportMeta:Object.entries(DEFAULT_SPORTS).map(([slug,name])=>({slug,name}));return [...new Set(meta.map(sp=>clean(sp.slug)).filter(Boolean))]}
+function selectAllBookmakers(){let s=getSettings();s.bookmakers=allBookmakerNames();setSettings(s);renderBookmakerList();qs('settingsStatus').textContent='All bookmakers selected.'}
+function unselectAllBookmakers(){let s=getSettings();s.bookmakers=[];setSettings(s);renderBookmakerList();qs('settingsStatus').textContent='All bookmakers unselected.'}
+function selectAllSports(){let s=getSettings();s.sports=allSportSlugs();setSettings(s);renderSportList();qs('settingsStatus').textContent='All sports selected.'}
+function unselectAllSports(){let s=getSettings();s.sports=[];setSettings(s);renderSportList();qs('settingsStatus').textContent='All sports unselected.'}
+function selectAllMarkets(){let s=getSettings();s.markets=MARKET_OPTIONS.map(m=>m.id);setSettings(s);renderMarketList();qs('settingsStatus').textContent='All market groups selected.'}
+function unselectAllMarkets(){let s=getSettings();s.markets=[];setSettings(s);renderMarketList();qs('settingsStatus').textContent='All market groups unselected.'}
+function unselectAllFilters(){let s=getSettings();s.sports=allSportSlugs();s.markets=MARKET_OPTIONS.map(m=>m.id);const saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"detectedMarkets":[]}');const markets=mergeDetectedMarkets(s.detectedMarkets||[],saved.detectedMarkets||[]);s.detectedMarketsSelected=markets.map(m=>detectedMarketKey(m.name));s.minEvPercent=0;setSettings(s);renderSettings();qs('settingsStatus').textContent='All sports, market groups and detected markets selected; minimum EV set to 0%.'}
+
+async function apiFetch(path,params={}){let s=getSettings();if(!s.apiKey)throw new Error('No API key saved.');params.apiKey=s.apiKey;let url=BASE_URL+path+'?'+new URLSearchParams(params).toString();let r=await fetch(url);if(!r.ok)throw new Error(`${r.status}: ${await r.text().then(t=>t.slice(0,300))}`);return {data:await r.json(),headers:r.headers}}
+async function fetchSettingsMirror(){try{qs('settingsStatus').textContent='Fetching bookmakers and sports...';let s=getSettings();let bmRes=await apiFetch('/bookmakers',{}).catch(e=>({data:[]}));let selected=await getAutoSelectedBookmakers().catch(e=>[]);let selectedSet=new Set(selected.map(x=>clean(x.name||x).toLowerCase()));let bmData=Array.isArray(bmRes.data)?bmRes.data:[];s.bookmakerMeta=bmData.map(b=>{let name=clean(b.name||b.bookmaker||b.title||b.slug);return{name,active:typeof b.active==='boolean'?b.active:null,autoSelected:selectedSet.has(name.toLowerCase())}}).filter(x=>x.name);if(selected.length){s.bookmakers=[...new Set(selected.map(x=>clean(x.name||x)).filter(Boolean))]}let sportsRes=await apiFetch('/sports',{}).catch(e=>({data:[]}));let spData=Array.isArray(sportsRes.data)?sportsRes.data:[];s.sportMeta=spData.map(sp=>{let slug=normalizeSportSlug(sp.slug||sp.key||sp.name||sp.sport);return{slug,name:sp.name||sp.title||DEFAULT_SPORTS[slug]||slug.replaceAll('-',' '),active:typeof sp.active==='boolean'?sp.active:null}}).filter(x=>x.slug);if(!s.sports||!s.sports.length)s.sports=Object.keys(DEFAULT_SPORTS);setSettings(s);renderSettings();qs('settingsStatus').textContent=`Fetched ${s.bookmakerMeta.length} bookmakers and ${s.sportMeta.length} sports. Auto-selected: ${selected.length}.`;}catch(e){qs('settingsStatus').textContent='Fetch failed: '+e.message}}
+async function getAutoSelectedBookmakers(){let tries=['/bookmakers/selected','/bookmakers/active','/bookmakers/user'];for(let p of tries){try{let res=await apiFetch(p,{});if(Array.isArray(res.data)&&res.data.length)return res.data;if(res.data&&Array.isArray(res.data.bookmakers)&&res.data.bookmakers.length)return res.data.bookmakers;}catch(e){}}return[]}
+async function testSelectedBookmakers(){try{let b=await getAutoSelectedBookmakers();qs('settingsStatus').textContent=b.length?'Auto-selected: '+b.map(x=>x.name||x).join(', '):'No selected bookmakers returned. Use manual ticks as safety net.'}catch(e){qs('settingsStatus').textContent='Test failed: '+e.message}}
+function normalizeSportSlug(v){let sport=norm(v);let repl={soccer:'football','football/soccer':'football','american football':'american-football','ice hockey':'ice-hockey'};return repl[sport]||sport.replaceAll(' ','-')} function sportName(slug){let s=getSettings();let hit=(s.sportMeta||[]).find(x=>x.slug===slug);return (hit&&hit.name)||DEFAULT_SPORTS[slug]||slug.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase())}
+function normalizeEvToDecimal(v){let ev=num(v);if(ev==null)return null;if(ev>-1&&ev<1)return ev;if(ev>=100)return(ev-100)/100;return ev/100}
+function marketAllowed(slug,marketName,marketObj={}){let s=getSettings();let original=norm(marketName);let normalized=norm(normalizedMarketNameForFiltering(slug,marketName,marketObj));let selected=MARKET_OPTIONS.filter(m=>s.markets.includes(m.id));for(let m of selected){if(m.sports&&!m.sports.includes(slug))continue;if(m.id==='player_props'&&isPlayerPropMarket(slug,marketName,marketObj))return true;if(m.names.includes(original)||m.names.includes(normalized))return true}let detected=new Set((s.detectedMarketsSelected||[]).map(norm));if(detected.has(original)||detected.has(normalized))return true;let customs=(s.customMarkets||'').split('\n').map(norm).filter(Boolean);return customs.includes(original)||customs.includes(normalized)}
+function extractSportSlug(raw){let e=raw.event||{},m=raw.market||{};let cs=[raw.sport,raw.sportSlug,raw.sportKey,raw.sportName,e.sport,e.sportSlug,e.sportKey,e.sportName,m.sport,m.sportSlug,m.sportKey,m.sportName];for(let c of cs)if(c)return normalizeSportSlug(c);return''}
+function extractMarketLine(m){for(let k of ['line','hdp','marketLine','total','points','handicap','spread'])if(m&&m[k]!=null)return m[k];return''} function extractPlayerOrLabel(m){for(let k of ['label','player','participant','nameLabel','selection','runner'])if(m&&m[k])return m[k];return''}
+function extractDecimalOdds(bo,side){if(!bo||typeof bo!=='object')return null;side=clean(side);let keys=[side,side.toLowerCase(),side.toUpperCase(),side.charAt(0).toUpperCase()+side.slice(1).toLowerCase(),'odds','price','decimalOdds','decimal'];for(let k of keys){if(bo[k]!=null){let o=num(bo[k]);if(o!=null)return o}}return null}
+function calcOddsToBeat(odds,ev){odds=num(odds);ev=num(ev);if(odds==null||ev==null||odds<=1||1+ev<=0)return null;return odds/(1+ev)}
+function calcTrackedEv(oddsTaken,oddsToBeat,fallbackEv=null){
+  const odds=num(oddsTaken), otb=num(oddsToBeat);
+  if(odds!=null&&otb!=null&&odds>1&&otb>1)return odds/otb-1;
+  const fb=num(fallbackEv);
+  return fb==null?null:fb;
+}
+function avgDecimal(rows,key){
+  const vals=rows.map(r=>num(r[key])).filter(v=>v!=null&&Number.isFinite(v));
+  return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
+}
+function extractDirectLink(bo,side){if(!bo||typeof bo!=='object')return'';side=clean(side);let variants=[side,side.toLowerCase(),side.toUpperCase(),side.charAt(0).toUpperCase()+side.slice(1).toLowerCase()];let keys=[];variants.forEach(s=>{if(s)keys.push(`${s}DirectLink`,`${s}_directLink`,`${s}_direct_link`,`${s}Url`,`${s}_url`,`${s}URL`)});keys.push('directLink','direct_link','bookmakerDirectLink','bookmakerUrl','eventUrl','eventURL','url','link');for(let k of keys)if(typeof bo[k]==='string'&&bo[k].startsWith('http'))return bo[k];for(let v of Object.values(bo))if(typeof v==='string'&&v.startsWith('http'))return v;return''}
+function eventFields(raw){let e=raw.event||{};let name=e.home&&e.away?`${e.home} vs ${e.away}`:(e.name||`Event ${raw.eventId||''}`);return{event:name,league:e.league||e.competition||'',date:e.date||e.startTime||'',country:e.country||e.region||'',home:e.home||'',away:e.away||''}}
+function fmtDate(v){if(!v)return'';let d=new Date(v);return Number.isNaN(d.getTime())?v:d.toISOString().slice(0,16).replace('T',' ')+' UTC'}
+
+function eventTimeBadgeHtml(v){
+  if(!v)return '';
+  const d=new Date(v); if(Number.isNaN(d.getTime()))return '';
+  const ms=d.getTime()-Date.now();
+  const abs=Math.abs(ms);
+  let text='';
+  if(ms<0){
+    const h=Math.floor(abs/3600000), m=Math.floor((abs%3600000)/60000);
+    text=h>=1?`Expired ${h}h ago`:`Expired ${m}m ago`;
+    return `<span class="time-badge expired">${text}</span>`;
+  }
+  const days=Math.floor(ms/86400000), h=Math.floor((ms%86400000)/3600000), m=Math.floor((ms%3600000)/60000);
+  if(days>=1)text=`Starts in ${days}d ${h}h`;
+  else if(h>=1)text=`Starts in ${h}h ${m}m`;
+  else text=`Starts in ${Math.max(m,0)}m`;
+  const cls=ms<=3600000?'soon':'';
+  return `<span class="time-badge ${cls}">${text}</span>`;
+}
+function hiddenReasonForRow(r){const key=betKeyFromScanRow(r);return getHiddenReasons()[key]||''}
+function hiddenReasonBadgeHtml(r){const reason=hiddenReasonForRow(r);return reason?`<span class="hide-reason-pill">${escapeHtml(reason)}</span>`:''}
+function minOddsHtml(v){return `<span class="min-odds-label">${fmt2(v)}</span>`}
+
+async function runScanner(isAuto=false){
+  let previous=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');
+  let previousKeys=new Set((previous.rows||[]).map(betKeyFromScanRow));
+  let s=getSettings();let status=qs('scannerStatus');
+  if(!s.apiKey){status.textContent='Save your API key in Settings first.';return}
+  if(!s.bookmakers.length){status.textContent='Tick at least one bookmaker in Settings.';return}
+  let all=[],stats=[],rejected=[],detectedMarkets=[];status.textContent=isAuto?'Auto-scanning...':'Scanning...';
+  for(let bm of s.bookmakers){
+    try{
+      status.textContent=(isAuto?'Auto-scan: ':'Fetching ')+bm+'...';
+      let res=await apiFetch('/value-bets',{bookmaker:bm,includeEventDetails:'true'});
+      let raw=Array.isArray(res.data)?res.data:[];
+      let diag={kept:0,sport:0,market:0,ev:0,no_ev:0,error:0};
+      for(let bet of raw){
+        recordDetectedMarket(detectedMarkets,bet,bm);
+        let parsed=parseValueBetDetailed(bet,bm);
+        if(parsed.row){all.push(parsed.row);diag.kept++}
+        else{diag[parsed.reason]=(diag[parsed.reason]||0)+1;rejected.push(buildRejectedBet(bet,bm,parsed.reason))}
+      }
+      stats.push({bookmaker:bm,returned:raw.length,kept:diag.kept,removedSport:diag.sport,removedMarket:diag.market,removedEv:diag.ev,removedNoEv:diag.no_ev,parseErrors:diag.error,remaining:res.headers.get('x-ratelimit-remaining')});
+    }catch(e){stats.push({bookmaker:bm,returned:0,kept:0,error:e.message})}
+  }
+  all.sort((a,b)=>(b.EV||0)-(a.EV||0)||(b.Odds||0)-(a.Odds||0));
+  let settingsForDetected=getSettings();settingsForDetected.detectedMarkets=mergeDetectedMarkets(settingsForDetected.detectedMarkets||[],detectedMarkets);setSettings(settingsForDetected);localStorage.setItem(STORAGE_SCAN,JSON.stringify({rows:all,stats,rejected,detectedMarkets:settingsForDetected.detectedMarkets,ts:nowIso()}));
+  renderScannerResults();
+  if(isAuto){
+    let newRows=all.filter(r=>!previousKeys.has(betKeyFromScanRow(r))&&!isScanRowTaken(r)&&!isScanRowHidden(r));
+    if(newRows.length)setNewKeys(getNewKeys().concat(newRows.map(betKeyFromScanRow)));
+    updateAutoScanState(`Last auto-scan: ${fmtDate(nowIso())}. New untracked bets: ${newRows.length}.`);
+    if(newRows.length&&getAutoScanSettings().notify)showNewBetPopup(newRows,'Auto-scan found new untracked valuebets');
+  }
+}
+function parseValueBetDetailed(raw,bm){
+  try{
+    let s=getSettings();let slug=extractSportSlug(raw);
+    if(s.sports.length && !s.sports.includes(slug))return{row:null,reason:'sport'};
+    let market=raw.market||{},bo=raw.bookmakerOdds||{},marketName=market.name||'';
+    if(s.markets.length && !marketAllowed(slug,marketName,market))return{row:null,reason:'market'};
+    let ev=normalizeEvToDecimal(raw.expectedValue);
+    if(ev==null)return{row:null,reason:'no_ev'};
+    if(ev<(Number(s.minEvPercent||0)/100))return{row:null,reason:'ev'};
+    let side=raw.betSide||'';let odds=extractDecimalOdds(bo,side);let ef=eventFields(raw);let player=extractPlayerOrLabel(market),line=extractMarketLine(market);
+    let isProp=isPlayerPropMarket(slug,marketName,market);
+    let displayMarket=isProp?'Player Props':marketName;
+    let displaySelection=isProp?playerPropSelectionFromMarket(marketName,market,side):side;
+    let displayLine=isProp?playerPropLineFromMarket(market,side):(player||line);
+    return{row:{EV:ev,Bookmaker:bm,Sport:sportName(slug),SportSlug:slug,Country:ef.country,League:ef.league,Event:ef.event,Home:ef.home,Away:ef.away,Date:fmtDate(ef.date),EventStartRaw:ef.date,Market:displayMarket,RawMarket:marketName,LinePlayer:displayLine,Line:line,Selection:displaySelection,RawSelection:side,Odds:odds,OddsToBeat:calcOddsToBeat(odds,ev),BookmakerLink:extractDirectLink(bo,side),EventID:raw.eventId||''},reason:'kept'};
+  }catch(e){return{row:null,reason:'error'}}
+}
+function buildRejectedBet(raw,bm,reason){
+  try{
+    const slug=extractSportSlug(raw);
+    const market=raw.market||{},bo=raw.bookmakerOdds||{};
+    const marketName=market.name||market.marketName||raw.marketName||'';
+    const ev=normalizeEvToDecimal(raw.expectedValue);
+    const side=raw.betSide||'';
+    const odds=extractDecimalOdds(bo,side);
+    const ef=eventFields(raw);
+    const player=extractPlayerOrLabel(market),line=extractMarketLine(market);
+    const isProp=isPlayerPropMarket(slug,marketName,market);
+    return {Reason:reason||'unknown',Bookmaker:bm,Sport:sportName(slug),SportSlug:slug,Country:ef.country,League:ef.league,Event:ef.event,Home:ef.home,Away:ef.away,Date:fmtDate(ef.date),EventStartRaw:ef.date,Market:isProp?'Player Props':marketName,RawMarket:marketName,LinePlayer:isProp?playerPropLineFromMarket(market,side):(player||line),Selection:isProp?playerPropSelectionFromMarket(marketName,market,side):side,RawSelection:side,Odds:odds,EV:ev,EventID:raw.eventId||'',BookmakerLink:extractDirectLink(bo,side)};
+  }catch(e){return {Reason:reason||'error',Bookmaker:bm,Event:'Could not parse rejected row',Market:'',Selection:'',Odds:null,EV:null}}
+}
+function parseValueBet(raw,bm){let parsed=parseValueBetDetailed(raw,bm);return parsed.row}
+function populateScannerFilters(rows){
+  const bmSel=qs('scanFilterBookmaker'),spSel=qs('scanFilterSport'),mkSel=qs('scanFilterMarket');
+  if(!bmSel||!spSel||!mkSel)return;
+  const keep=(sel)=>sel.value;
+  const oldBm=keep(bmSel),oldSp=keep(spSel),oldMk=keep(mkSel);
+  const fill=(sel,items)=>{sel.innerHTML='<option value="">All</option>'+items.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('')};
+  fill(bmSel,[...new Set(rows.map(r=>r.Bookmaker).filter(Boolean))].sort());
+  fill(spSel,[...new Set(rows.map(r=>r.Sport).filter(Boolean))].sort());
+  fill(mkSel,[...new Set(rows.map(r=>r.Market).filter(Boolean))].sort());
+  bmSel.value=oldBm;spSel.value=oldSp;mkSel.value=oldMk;
+}
+function filteredScannerRows(rows){
+  let out=rows.slice();
+  const bm=qs('scanFilterBookmaker')?.value||'',sp=qs('scanFilterSport')?.value||'',mk=qs('scanFilterMarket')?.value||'',hide=!!qs('scanHideTaken')?.checked,showHidden=!!qs('scanShowHidden')?.checked;
+  if(!showHidden)out=out.filter(r=>!isScanRowHidden(r));
+  if(bm)out=out.filter(r=>r.Bookmaker===bm);
+  if(sp)out=out.filter(r=>r.Sport===sp);
+  if(mk)out=out.filter(r=>r.Market===mk);
+  if(hide)out=out.filter(r=>!isScanRowTaken(r));
+  const sort=qs('scanSort')?.value||'ev_desc';
+  out.sort((a,b)=>{
+    if(sort==='odds_desc')return (b.Odds||0)-(a.Odds||0)||(b.EV||0)-(a.EV||0);
+    if(sort==='date_asc')return new Date(a.EventStartRaw||a.Date||'2999-01-01')-new Date(b.EventStartRaw||b.Date||'2999-01-01');
+    if(sort==='bookmaker_asc')return clean(a.Bookmaker).localeCompare(clean(b.Bookmaker))||((b.EV||0)-(a.EV||0));
+    if(sort==='sport_asc')return clean(a.Sport).localeCompare(clean(b.Sport))||((b.EV||0)-(a.EV||0));
+    return (b.EV||0)-(a.EV||0)||(b.Odds||0)-(a.Odds||0);
+  });
+  return out;
+}
+function renderScannerResults(){
+  let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');
+  let rows=(saved.rows||[]).map((r,i)=>Object.assign({_scanIndex:i},r));
+  qs('scannerMetrics').classList.add('hidden');
+  qs('scannerMetrics').innerHTML='';
+  qs('scannerControls').classList.toggle('hidden',!rows.length);
+  populateScannerFilters(rows);
+  let visible=filteredScannerRows(rows);
+  if(rows.length){
+    qs('scannerStatus').innerHTML=scannerStatusSummaryHtml(rows,saved,visible);
+    qs('scannerFilterNote').textContent=`Displayed ${visible.length} of ${rows.length} valuebets with current front-page filters. Hidden bets are excluded unless Show hidden is enabled.`;
+  }else{
+    qs('scannerStatus').textContent='Press the button to scan selected bookmakers.';
+    qs('scannerFilterNote').textContent='';
+  }
+  renderScannerTable(visible);
+  renderScannerCards(visible);
+}
+
+function syncScannerScrollbars(){
+  const top=qs('scannerScrollTop'),wrap=qs('scannerTableInner'),inner=qs('scannerScrollTopInner');
+  if(!top||!wrap||!inner)return;
+  const table=wrap.querySelector('table');
+  inner.style.width=(table?table.scrollWidth:wrap.scrollWidth)+'px';
+  top.onscroll=()=>{wrap.scrollLeft=top.scrollLeft};
+  wrap.onscroll=()=>{top.scrollLeft=wrap.scrollLeft};
+}
+function renderScannerTable(rows){
+  let div=qs('scannerTable');
+  if(!rows.length){div.classList.add('hidden');div.innerHTML='';return}
+  div.classList.remove('hidden');
+  let html='<table class="scanner-two-row-table"><thead><tr>'+['EV','Bookmaker','Sport','League','Event','Date'].map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>';
+  rows.forEach((r,i)=>{
+    let taken=isScanRowTaken(r), hidden=isScanRowHidden(r), isNew=isScanRowNew(r), originalIndex=r._scanIndex??i;
+    const lineVal=displayLineValue(r);
+    const actionHtml=`<div class="scan-action-row clean two-row-actions"><button class="btn secondary" onclick="addScanRowToTracker(${originalIndex})" ${(taken||hidden)?'disabled title="Already tracked or hidden"':''}>${taken?'Tracked':hidden?'Hidden':'Track'}</button>${hidden?`<button class="btn secondary hide-bet-btn" onclick="unhideScanRow(${originalIndex})">Unhide</button>`:`<button class="btn secondary hide-bet-btn" onclick="hideScanRow(${originalIndex})">Hide</button>`}<span class="trackstate compact-trackstate">${takenBadgeHtml(taken)}${hiddenBadgeHtml(hidden)}${hidden?hiddenReasonBadgeHtml(r):''}</span></div>`;
+    html+=`<tr class="scanner-main-row ${isNew?'new-row':''}"><td class="ev">${evHtml(r.EV)} ${isNew?newBadgeHtml(r):''}</td><td>${bookmakerBadgeHtml(r.Bookmaker)}</td><td>${sportDisplayHtml(r)}</td><td>${leagueDisplayHtml(r.Country,r.League)}</td><td class="scanner-event-cell">${escapeHtml(r.Event)}</td><td><div class="scanner-table-date">${escapeHtml(r.Date)} ${eventTimeBadgeHtml(r.EventStartRaw||r.Date)}</div></td></tr>`;
+    html+=`<tr class="scanner-detail-row ${isNew?'new-row':''}"><td colspan="6"><div class="scanner-detail-strip"><div class="scanner-detail-left"><span class="detail-label">Market</span>${marketPillHtml(r.Market,r.BookmakerLink)}<span class="detail-label">Line</span>${linePillHtml(lineVal,r.BookmakerLink)}<span class="detail-label">Selection</span>${selectionPillHtml(r.Selection,'',r.Market,r.BookmakerLink)}<span class="detail-label">Odds</span>${oddsLinkHtml(r,'table-odds-link')}<span class="detail-label">Min. Odds</span>${minOddsHtml(r.OddsToBeat)}</div>${actionHtml}</div></td></tr>`;
+  });
+  const tableHtml=html+'</tbody></table>';
+  div.innerHTML=`<div id="scannerScrollTop" class="scanner-table-scroll-top"><div id="scannerScrollTopInner" class="scanner-table-scroll-top-inner"></div></div><div id="scannerTableInner" class="scanner-table-inner">${tableHtml}</div>`;
+  setTimeout(syncScannerScrollbars,0);
+}
+function renderScannerCards(rows){
+  let div=qs('scannerCards');
+  div.innerHTML=rows.map((r,i)=>{
+    let taken=isScanRowTaken(r), hidden=isScanRowHidden(r), isNew=isScanRowNew(r), originalIndex=r._scanIndex??i;
+    const lineVal=displayLineValue(r);
+    return `<div class="betcard ${isNew?'new-card':''}"><div class="betcard-head"><div class="evbig">${evHtml(r.EV)} EV</div>${bookmakerBadgeHtml(r.Bookmaker)}</div><div class="betcard-meta"><span class="meta-chip">${sportEmojiBySlug(r.SportSlug)} ${escapeHtml(r.Sport)}</span>${r.Country?`<span class="meta-chip">${flagEmoji(r.Country)} ${escapeHtml(r.Country)}</span>`:''}${eventTimeBadgeHtml(r.EventStartRaw||r.Date)}${hidden?'<span class="hidden-badge">Hidden</span>':''}${hidden?hiddenReasonBadgeHtml(r):''}${isNew?newBadgeHtml(r):''}</div><div class="card-primary">${escapeHtml(r.Event)}</div><div class="scanner-card-marketline">${marketPillHtml(r.Market,r.BookmakerLink)}${linePillHtml(lineVal,r.BookmakerLink)}</div><div class="card-selection">${selectionPillHtml(r.Selection,'',r.Market,r.BookmakerLink)}</div><div class="card-oddsline"><span class="stat-pill">Odds <b>${oddsLinkHtml(r)}</b></span><span class="stat-pill">Min. Odds <b>${minOddsHtml(r.OddsToBeat)}</b></span></div><div class="muted">${escapeHtml(r.League)} · ${escapeHtml(r.Date)}</div><div class="scan-action-row clean"><button class="btn secondary" onclick="addScanRowToTracker(${originalIndex})" ${(taken||hidden)?'disabled title="Already tracked or hidden"':''}>${taken?'Tracked':hidden?'Hidden':'Track'}</button>${hidden?`<button class="btn secondary hide-bet-btn" onclick="unhideScanRow(${originalIndex})">Unhide</button>`:`<button class="btn secondary hide-bet-btn" onclick="hideScanRow(${originalIndex})">Hide</button>`}<span class="trackstate">${takenBadgeHtml(taken)}${hiddenBadgeHtml(hidden)}</span></div></div>`
+  }).join('')
+}
+let pendingTrackIndex=null;
+function addScanRowToTracker(i,inputId=null){
+  let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');let r=saved.rows[i];if(!r)return;
+  if(isScanRowTaken(r)){alert('This bet is already in the tracker.');renderScannerResults();return;}
+  if(isScanRowHidden(r)){alert('This bet is hidden. Unhide it first if you want to track it.');renderScannerResults();return;}
+  pendingTrackIndex=i;
+  qs('trackOddsSubtitle').innerHTML=`${escapeHtml(r.Bookmaker)} · ${escapeHtml(r.Event)} · ${displaySelectionText(r.Selection,r.Market,r.LinePlayer||r.Line)} · displayed odds ${fmt2(r.Odds)} · min. odds ${fmt2(r.OddsToBeat)}`;
+  qs('trackDisplayedBtn').textContent=`Use displayed odds ${fmt2(r.Odds)}`;
+  qs('trackAlternativeOdds').value='';
+  updateTrackOddsPreview();
+  qs('trackOddsPopup').classList.add('show');
+}
+function closeTrackOddsPopup(){pendingTrackIndex=null;qs('trackOddsPopup')?.classList.remove('show')}
+function updateTrackOddsPreview(){
+  if(pendingTrackIndex==null)return;
+  let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');let r=saved.rows[pendingTrackIndex];if(!r)return;
+  const alt=num(qs('trackAlternativeOdds').value);const box=qs('trackOddsPreview');
+  box.classList.remove('warn','good');
+  if(!alt||alt<=1){box.textContent='Enter alternative odds to preview recalculated EV.';return;}
+  const ev=calcTrackedEv(alt,r.OddsToBeat,r.EV);
+  box.innerHTML=`Alternative odds ${fmt2(alt)} → EV ${fmtPct(ev)}. Min. odds: ${fmt2(r.OddsToBeat)}.`;
+  box.classList.add(ev<0?'warn':'good');
+  if(ev<0)box.innerHTML+=`<br><b>Warning:</b> this would be negative EV at the entered odds.`;
+}
+function confirmTrackDisplayedOdds(){if(pendingTrackIndex==null)return;trackScanRowWithOdds(pendingTrackIndex,null)}
+function confirmTrackAlternativeOdds(){
+  if(pendingTrackIndex==null)return;
+  const alt=num(qs('trackAlternativeOdds').value);
+  if(!alt||alt<=1){alert('Please enter valid alternative odds above 1.00.');return;}
+  const saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');const r=saved.rows[pendingTrackIndex];const ev=calcTrackedEv(alt,r?.OddsToBeat,r?.EV);
+  if(ev<0&&!confirm(`Warning: this is negative EV (${fmtPct(ev)}). Track anyway?`))return;
+  trackScanRowWithOdds(pendingTrackIndex,alt);
+}
+function trackScanRowWithOdds(i,customOdds=null){
+  let saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rows":[]}');let r=saved.rows[i];if(!r)return;
+  let s=getSettings();let oddsTaken=customOdds&&customOdds>1?customOdds:r.Odds;let trackedEv=calcTrackedEv(oddsTaken,r.OddsToBeat,r.EV);let scanKey=betKeyFromScanRow(r);let t=getTracker();
+  t.push({id:makeId(),scanKey:scanKey,betTimestamp:nowIso(),eventStart:r.EventStartRaw||r.Date,country:r.Country||'',league:r.League||'',home:r.Home||'',away:r.Away||'',event:r.Event||'',bookmaker:r.Bookmaker||'',sport:r.Sport||'',market:r.Market||'',selection:r.Selection||'',line:r.LinePlayer||'',oddsTaken:oddsTaken||'',oddsToBeat:r.OddsToBeat||'',betEv:trackedEv,stake:s.defaultStake||1,status:'open',returnAmount:'',pl:'',closingLine:'',closingOdds:'',oppositeClosingOdds:'',thirdClosingOdds:'',clv:'',clvType:'',eventId:r.EventID||'',bookmakerLink:r.BookmakerLink||'',notes:''});
+  setTracker(t);clearNewKeyForRow(r);closeTrackOddsPopup();alert(`Added to tracker with odds ${fmt2(oddsTaken)} and EV ${fmtPct(trackedEv)}.`);renderTracker();renderScannerResults();
+}
+function openTrackerModal(id=null){editingBetId=id;let bet=id?getTracker().find(x=>x.id===id):{};qs('modalTitle').textContent=id?'Edit Bet':'Add Manual Bet';let fields=[['eventStart','Event start','datetime-local'],['country','Country','text'],['league','League / Competition','text'],['home','Home team','text'],['away','Away team','text'],['event','Event name','text'],['bookmaker','Bookmaker','text'],['sport','Sport','text'],['market','Market','text'],['selection','Selection','text'],['line','Line','text'],['oddsTaken','Odds taken','number'],['oddsToBeat','Min. Odds','number'],['betEvPercent','EV %','number'],['stake','Stake','number'],['status','Win/Loss/Push','select'],['closingLine','Closing line','text'],['closingOdds','Closing odds selection','number'],['oppositeClosingOdds','Opposite closing odds','number'],['thirdClosingOdds','Third closing odds','number'],['eventId','Event ID','text'],['bookmakerLink','Bookmaker link','url'],['notes','Notes','text']];let html='';fields.forEach(f=>{let [k,l,type]=f;let val=bet&&bet[k]!=null?bet[k]:'';if(k==='betEvPercent')val=bet&&bet.betEv!=null?Number(bet.betEv)*100:'';if(k==='stake'&&!val)val=getSettings().defaultStake||1;if(k==='status'){html+=`<div class="field"><label>${l}</label><select id="form-${k}"><option value="open">Open</option><option value="win">Win</option><option value="loss">Loss</option><option value="push">Push</option></select></div>`}else{html+=`<div class="field"><label>${l}</label><input id="form-${k}" type="${type}" step="0.01" value="${escapeHtml(val)}"></div>`}});qs('trackerForm').innerHTML=html;if(bet&&bet.status)qs('form-status').value=bet.status;qs('trackerModal').classList.add('show')}
+function closeTrackerModal(){qs('trackerModal').classList.remove('show')}
+function saveTrackerBetFromForm(){let t=getTracker();let obj=editingBetId?t.find(x=>x.id===editingBetId):{id:makeId(),betTimestamp:nowIso()};['eventStart','country','league','home','away','event','bookmaker','sport','market','selection','line','oddsTaken','oddsToBeat','stake','status','closingLine','closingOdds','oppositeClosingOdds','eventId','bookmakerLink','notes'].forEach(k=>obj[k]=qs('form-'+k).value);let evPct=num(qs('form-betEvPercent').value);obj.betEv=evPct==null?'':evPct/100;if((obj.betEv===''||obj.betEv==null)&&num(obj.oddsTaken)>1&&num(obj.oddsToBeat)>1)obj.betEv=calcTrackedEv(obj.oddsTaken,obj.oddsToBeat,null);if(!editingBetId)t.push(obj);setTracker(t);closeTrackerModal();renderTracker()}
+function settleCalc(b){let stake=num(b.stake)||0,odds=num(b.oddsTaken)||0;if(b.status==='win')return{ret:stake*odds,pl:stake*(odds-1)};if(b.status==='loss')return{ret:0,pl:-stake};if(b.status==='push')return{ret:stake,pl:0};return{ret:null,pl:null}}
+function clvCalc(b){return clvFromInputs(b.oddsTaken,b.closingOdds,b.oppositeClosingOdds,b.thirdClosingOdds)}
+function enrichedTracker(){let acc=0;return getTracker().slice().sort((a,b)=>new Date(a.betTimestamp)-new Date(b.betTimestamp)).map(b=>{let s=settleCalc(b),c=clvCalc(b);if(s.pl!=null)acc+=s.pl;let evStored=num(b.betEv);let evCalc=evStored!=null?evStored:calcTrackedEv(b.oddsTaken,b.oddsToBeat,null);return Object.assign({},b,{betEv:evCalc,returnAmount:s.ret,pl:s.pl,accPl:acc,clv:c.clv,clvType:c.type})})}
+function filterNumberValue(id){
+  const el=qs(id);
+  if(!el)return null;
+  const raw=clean(el.value);
+  if(raw==='')return null;
+  const n=Number(raw);
+  return Number.isFinite(n)?n:null;
+}
+function filteredTracker(){
+  let rows=enrichedTracker();
+  let m=qs('filterMonth')?.value||'',bm=qs('filterBookmaker')?.value||'',lg=qs('filterLeague')?.value||'',st=qs('filterStatus')?.value||'',sp=qs('filterSport')?.value||'',clv=qs('filterClv')?.value||'';
+  let minEv=filterNumberValue('filterMinEv'), maxEv=filterNumberValue('filterMaxEv');
+  return rows.filter(r=>{
+    const evPct=r.betEv==null?null:Number(r.betEv)*100;
+    if(m&&clean(r.betTimestamp).slice(0,7)!==m)return false;
+    if(bm&&r.bookmaker!==bm)return false;
+    if(lg&&r.league!==lg)return false;
+    if(st&&r.status!==st)return false;
+    if(sp&&r.sport!==sp)return false;
+    if(minEv!=null&&(evPct==null||evPct<minEv))return false;
+    if(maxEv!=null&&(evPct==null||evPct>maxEv))return false;
+    if(clv==='positive'&&!(num(r.clv)>0))return false;
+    if(clv==='negative'&&!(num(r.clv)<0))return false;
+    if(clv==='missing'&&num(r.clv)!=null)return false;
+    return true;
+  });
+}
+function updateFilterOptions(rows){
+  const fillSelect=(id,values)=>{
+    const sel=qs(id);
+    if(!sel)return;
+    const old=sel.value||'';
+    const opts=[...new Set(values.filter(Boolean))].sort();
+    sel.innerHTML='<option value="">All</option>'+opts.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');
+    sel.value=opts.includes(old)?old:'';
+  };
+  fillSelect('filterBookmaker',rows.map(r=>r.bookmaker));
+  fillSelect('filterLeague',rows.map(r=>r.league));
+  fillSelect('filterSport',rows.map(r=>r.sport));
+}
+function renderTracker(){let all=enrichedTracker();updateFilterOptions(all);let rows=filteredTracker();let settled=rows.filter(r=>r.pl!=null),stakeSettled=settled.reduce((a,r)=>a+(num(r.stake)||0),0),pl=settled.reduce((a,r)=>a+(num(r.pl)||0),0),roi=stakeSettled?pl/stakeSettled:null,avgClv=avgDecimal(rows,'clv'),avgEv=avgDecimal(rows,'betEv'),bank=(num(getSettings().startingBankroll)||0)+pl;qs('trackerMetrics').innerHTML=`<div class="metric"><span>Bets</span><strong>${rows.length}</strong></div><div class="metric"><span>Avg EV</span><strong>${avgEv==null?'-':fmtPct(avgEv)}</strong></div><div class="metric"><span>P/L</span><strong class="${pl>=0?'pos':'neg'}">${fmt2(pl)}</strong></div><div class="metric"><span>ROI</span><strong>${roi==null?'-':fmtPct(roi)}</strong></div><div class="metric"><span>Avg CLV</span><strong>${avgClv==null?'-':fmtPct(avgClv)}</strong></div><div class="metric"><span>Bankroll now</span><strong>${fmt2(bank)} €</strong></div>`;renderTrackerTable(rows);renderTrackerCards(rows)}
+function quickStatusButtons(id,current){return `<span class="quickstatus"><button class="statusbtn win ${current==='win'?'active':''}" title="Set as Win" onclick="setBetStatus('${id}','win')">W</button><button class="statusbtn loss ${current==='loss'?'active':''}" title="Set as Loss" onclick="setBetStatus('${id}','loss')">L</button><button class="statusbtn push ${current==='push'?'active':''}" title="Set as Push" onclick="setBetStatus('${id}','push')">P</button></span>`}
+function statusPill(status){let s=clean(status||'open').toLowerCase();return `<span class="statuspill ${s}">${escapeHtml(s)}</span>`}
+
+let editingClvBetId=null;
+function openClvPopup(id){
+  const bet=getTracker().find(x=>x.id===id);
+  if(!bet){alert('Bet not found.');return;}
+  editingClvBetId=id;
+  qs('clvPopupSubtitle').textContent=`${displaySelectionText(bet.selection,bet.market,bet.line)} @ ${fmt2(bet.oddsTaken)} · ${bet.event||bet.home||'Event'}`;
+  qs('clvClosingLine').value=clean(bet.closingLine);
+  qs('clvClosingOdds').value=clean(bet.closingOdds);
+  qs('clvOppositeClosingOdds').value=clean(bet.oppositeClosingOdds);
+  qs('clvThirdClosingOdds').value=clean(bet.thirdClosingOdds);
+  updateClvPreview();
+  qs('clvPopup')?.classList.add('show');
+}
+function closeClvPopup(){
+  editingClvBetId=null;
+  qs('clvPopup')?.classList.remove('show');
+}
+function clvFromInputs(taken,closing,opposite,third){
+  const takenOdds=num(taken), closingOdds=num(closing), oppositeOdds=num(opposite), thirdOdds=num(third);
+  if(!takenOdds||takenOdds<=1||!closingOdds||closingOdds<=1)return{clv:null,type:''};
+  const probs=[1/closingOdds];
+  if(oppositeOdds&&oppositeOdds>1)probs.push(1/oppositeOdds);
+  if(thirdOdds&&thirdOdds>1)probs.push(1/thirdOdds);
+  if(probs.length>=2){
+    const total=probs.reduce((a,b)=>a+b,0);
+    const devig=total>0?probs[0]/total:null;
+    const fair=devig>0?1/devig:null;
+    const label=probs.length===3?'de-vig 3-way':'de-vig';
+    return{clv:fair?takenOdds/fair-1:null,type:label};
+  }
+  return{clv:takenOdds/closingOdds-1,type:'raw'};
+}
+function updateClvPreview(){
+  if(!editingClvBetId){return;}
+  const bet=getTracker().find(x=>x.id===editingClvBetId);
+  if(!bet){return;}
+  const closing=qs('clvClosingOdds')?.value;
+  const opp=qs('clvOppositeClosingOdds')?.value;
+  const third=qs('clvThirdClosingOdds')?.value;
+  const res=clvFromInputs(bet.oddsTaken,closing,opp,third);
+  const preview=qs('clvPreview');
+  if(!preview)return;
+  if(res.clv==null){
+    preview.innerHTML='Enter the closing odds for your selection. Add opposite closing odds for 2-way de-vig, or opposite + third closing odds for 3-way de-vig.';
+    return;
+  }
+  preview.innerHTML=`Preview CLV: <b class="${res.clv>=0?'pos':'neg'}">${fmtPct(res.clv)}</b> <span class="tiny">(${res.type})</span>`;
+}
+function saveClvFromPopup(){
+  if(!editingClvBetId)return;
+  const tracker=getTracker();
+  const bet=tracker.find(x=>x.id===editingClvBetId);
+  if(!bet){closeClvPopup();return;}
+  bet.closingLine=qs('clvClosingLine')?.value||'';
+  bet.closingOdds=qs('clvClosingOdds')?.value||'';
+  bet.oppositeClosingOdds=qs('clvOppositeClosingOdds')?.value||'';
+  bet.thirdClosingOdds=qs('clvThirdClosingOdds')?.value||'';
+  setTracker(tracker);
+  closeClvPopup();
+  renderTracker();
+}
+
+function clvBadgeHtml(b){return `<span class="stat-pill clv-click" onclick="openClvPopup('${b.id}')" title="Click to enter closing odds">CLV <b>${b.clv==null?'-':fmtPct(b.clv)}</b>${b.clvType?` <small>${escapeHtml(b.clvType)}</small>`:''}</span>`}
+function setBetStatus(id,status){let t=getTracker();let b=t.find(x=>x.id===id);if(!b)return;b.status=status;setTracker(t);renderTracker()}
+function renderTrackerTable(rows){let heads=['Taken','Start','Book','Country','League','Home','Away','Selection','Line','Odds','Min. Odds','EV','Stake','Status','Return','P/L','Acc P/L','ROI','CLV','Link','Actions'];let html='<table><thead><tr>'+heads.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>';let stakeCum=0,plCum=0;rows.forEach(r=>{if(r.pl!=null){stakeCum+=num(r.stake)||0;plCum+=r.pl}let roi=stakeCum?plCum/stakeCum:null;html+=`<tr><td>${fmtDate(r.betTimestamp)}</td><td>${fmtDate(r.eventStart)}</td><td>${bookmakerBadgeHtml(r.bookmaker)}</td><td>${countryDisplayHtml(r.country)}</td><td>${escapeHtml(r.league)}</td><td>${escapeHtml(r.home)}</td><td>${escapeHtml(r.away)}</td><td>${displaySelectionText(r.selection,r.market,r.line)}</td><td>${escapeHtml(r.line)}</td><td>${fmt2(r.oddsTaken)}</td><td>${fmt2(r.oddsToBeat)}</td><td class="ev">${r.betEv==null?'':fmtPct(r.betEv)}</td><td>${fmt2(r.stake)}</td><td>${quickStatusButtons(r.id,r.status)} ${statusPill(r.status)}</td><td>${fmt2(r.returnAmount)}</td><td class="${(r.pl||0)>=0?'pos':'neg'}">${fmt2(r.pl)}</td><td>${fmt2(r.accPl)}</td><td>${roi==null?'':fmtPct(roi)}</td><td><span class="table-clv-link" onclick="openClvPopup('${r.id}')">${r.clv==null?'-':fmtPct(r.clv)}${r.clvType?` <small>${escapeHtml(r.clvType)}</small>`:''}</span></td><td>${r.bookmakerLink?`<a class="link" target="_blank" href="${escapeHtml(r.bookmakerLink)}">Open</a>`:'No link'}</td><td><button class="iconbtn" title="Edit bet" onclick="openTrackerModal('${r.id}')">✎</button><button class="iconbtn danger" title="Delete bet" onclick="deleteBet('${r.id}')">🗑️</button></td></tr>`});qs('trackerTable').innerHTML=html+'</tbody></table>'}
+
+function renderTrackerCards(rows){qs('trackerCards').innerHTML=rows.map(r=>{let eventTitle=escapeHtml(r.home||r.event||'Event')+(r.away?` vs ${escapeHtml(r.away)}`:'');let lineText=r.line?` <span class="line-part">${escapeHtml(r.line)}</span>`:'';let linkIcon=r.bookmakerLink?`<a class="iconbtn bookie-link" target="_blank" href="${escapeHtml(r.bookmakerLink)}" title="Open bookmaker event">↗</a>`:'';return `<div class="betcard tracker-card-v25"><div class="tracker-status-head">${statusPill(r.status)}<span class="meta-chip">${r.betEv==null?'-':fmtPct(r.betEv)} EV</span><span class="meta-chip">${fmt2(r.stake)}u</span><span class="stat-pill tracker-top-metric">Min <b>${fmt2(r.oddsToBeat)}</b></span><span class="stat-pill tracker-top-metric">P/L <b class="${(r.pl||0)>=0?'pos':'neg'}">${r.pl==null?'-':fmt2(r.pl)}</b></span>${clvBadgeHtml(r)}</div><div class="tracker-selection-main">${displaySelectionHtml(r.selection,r.market,r.line)} <span class="at-odds">@ ${fmt2(r.oddsTaken)}</span></div><div class="tracker-event-sub">${eventTitle}</div><div class="tracker-badge-row"><span class="meta-chip">${sportEmojiByName(r.sport)} ${escapeHtml(r.sport||'Sport')}</span>${r.country?`<span class="meta-chip">${flagEmoji(r.country)} ${escapeHtml(r.country)}</span>`:''}${r.league?`<span class="meta-chip">${escapeHtml(r.league)}</span>`:''}${compactBookmakerBadgeHtml(r.bookmaker)}</div><div class="tracker-adjust-row">${quickStatusButtons(r.id,r.status)}</div><div class="tracker-bottom-actions">${linkIcon}<button class="iconbtn" title="Edit bet" onclick="openTrackerModal('${r.id}')">✎</button><button class="iconbtn danger" title="Delete bet" onclick="deleteBet('${r.id}')">🗑️</button><span class="spacer"></span></div></div>`}).join('')}
+
+function closeConfirmPopup(){qs('confirmPopup')?.classList.remove('show');const yes=qs('confirmPopupYes');if(yes)yes.onclick=null}
+function confirmUntrackAllBets(){
+  const count=getTracker().length;
+  qs('confirmPopupTitle').textContent='Untrack all bets?';
+  qs('confirmPopupBody').innerHTML=count?`This will remove all ${count} tracked bet(s). Scanner bets will become not taken again. Hidden bets stay hidden.`:'There are no tracked bets to remove.';
+  const yes=qs('confirmPopupYes');
+  yes.textContent=count?'Yes, untrack all':'OK';
+  yes.onclick=count?untrackAllBets:closeConfirmPopup;
+  qs('confirmPopup')?.classList.add('show');
+}
+function untrackAllBets(){setTracker([]);closeConfirmPopup();renderTracker();renderScannerResults()}
+function deleteBet(id){if(confirm('Delete this bet?')){setTracker(getTracker().filter(x=>x.id!==id));renderTracker();renderScannerResults()}}
+function exportTrackerCsv(){let rows=enrichedTracker();let cols=['betTimestamp','eventStart','country','league','home','away','selection','line','oddsTaken','oddsToBeat','betEv','stake','status','returnAmount','pl','accPl','clv','clvType','closingLine','closingOdds','oppositeClosingOdds','thirdClosingOdds','bookmaker','sport','market','eventId','bookmakerLink','notes'];let csv=[cols.join(',')].concat(rows.map(r=>cols.map(c=>'"'+clean(r[c]).replaceAll('"','""')+'"').join(','))).join('\n');downloadBlob(csv,'bet_tracker.csv','text/csv')}
+function exportTrackerExcel(){let rows=enrichedTracker();let html='<table><tr>'+['Taken','Event Start','Country','League','Home','Away','Selection','Line','Odds Taken','Min. Odds','EV','Stake','W/L/P','Return','P/L','Accumulated P/L','CLV','CLV Type','Closing Line','Closing Odds','Opp Closing Odds','Third Closing Odds','Bookmaker','Sport','Market','Event ID','Bookmaker Link','Notes'].map(h=>`<th>${h}</th>`).join('')+'</tr>'+rows.map(r=>`<tr><td>${fmtDate(r.betTimestamp)}</td><td>${fmtDate(r.eventStart)}</td><td>${escapeHtml(r.country)}</td><td>${escapeHtml(r.league)}</td><td>${escapeHtml(r.home)}</td><td>${escapeHtml(r.away)}</td><td>${displaySelectionText(r.selection,r.market,r.line)}</td><td>${escapeHtml(r.line)}</td><td>${fmt2(r.oddsTaken)}</td><td>${fmt2(r.oddsToBeat)}</td><td>${r.betEv==null?'':fmtPct(r.betEv)}</td><td>${fmt2(r.stake)}</td><td>${escapeHtml(r.status)}</td><td>${fmt2(r.returnAmount)}</td><td>${fmt2(r.pl)}</td><td>${fmt2(r.accPl)}</td><td>${r.clv==null?'':fmtPct(r.clv)}</td><td>${escapeHtml(r.clvType)}</td><td>${escapeHtml(r.closingLine)}</td><td>${fmt2(r.closingOdds)}</td><td>${fmt2(r.oppositeClosingOdds)}</td><td>${fmt2(r.thirdClosingOdds)}</td><td>${escapeHtml(r.bookmaker)}</td><td>${escapeHtml(r.sport)}</td><td>${escapeHtml(r.market)}</td><td>${escapeHtml(r.eventId)}</td><td>${escapeHtml(r.bookmakerLink)}</td><td>${escapeHtml(r.notes)}</td></tr>`).join('')+'</table>';downloadBlob(html,'bet_tracker.xls','application/vnd.ms-excel')}
+
+function saveAutoScanSettings(){
+  const current=getAutoScanSettings();
+  setAutoScanSettings({
+    enabled:!!qs('autoScanEnabled')?.checked,
+    intervalMin:Number(qs('autoScanInterval')?.value||current.intervalMin||5),
+    notify:!!qs('autoScanNotify')?.checked,
+    sound:!!qs('autoScanSound')?.checked,
+    vibrate:!!qs('autoScanVibrate')?.checked
+  });
+  updateFloatingBars();
+}
+let autoScanTimer=null;
+let autoScanProgressTimer=null;
+let autoScanNextRunAt=null;
+function autoScanIntervalMs(){
+  const s=getAutoScanSettings();
+  return Math.max(0.5,Number(s.intervalMin||5))*60*1000;
+}
+function formatAutoScanInterval(value){
+  const n=Number(value||5);
+  if(n<=0.5)return '30 seconds';
+  if(n===1)return '1 minute';
+  return `${n} minutes`;
+}
+function formatCountdown(ms){
+  ms=Math.max(0,Math.ceil(ms/1000));
+  const m=Math.floor(ms/60);
+  const sec=ms%60;
+  if(m<=0)return `${sec}s`;
+  return `${m}:${String(sec).padStart(2,'0')}`;
+}
+function loadAutoScanSettings(){
+  const s=getAutoScanSettings();
+  if(qs('autoScanEnabled'))qs('autoScanEnabled').checked=!!s.enabled;
+  if(qs('autoScanInterval'))qs('autoScanInterval').value=String(s.intervalMin||5);
+  if(qs('autoScanNotify'))qs('autoScanNotify').checked=s.notify!==false;
+  if(qs('autoScanSound'))qs('autoScanSound').checked=!!s.sound;
+  if(qs('autoScanVibrate'))qs('autoScanVibrate').checked=s.vibrate!==false;
+  updatePwaInstallButton();
+  setupAutoScanTimer();
+  updateFloatingBars();
+}
+function updateAutoScanState(msg=null){
+  const s=getAutoScanSettings();
+  const el=qs('autoScanState'); if(!el)return;
+  if(msg){el.dataset.lastMessage=msg}
+  if(!s.enabled){
+    el.textContent='Auto-scan is off. The page must stay open for browser-based automation.';
+    return;
+  }
+  const intervalLabel=formatAutoScanInterval(s.intervalMin||5);
+  const countdown=autoScanNextRunAt?formatCountdown(autoScanNextRunAt-Date.now()):'--';
+  const last=el.dataset.lastMessage?` · ${el.dataset.lastMessage}`:'';
+  el.textContent=`Auto-scan is on. Interval: ${intervalLabel}. Next scan in ${countdown}.${last}`;
+}
+function updateAutoScanProgress(){
+  const s=getAutoScanSettings();
+  const bar=qs('autoScanProgress');
+  const fill=qs('autoScanProgressFill');
+  const wrap=qs('quickAutoWrap');
+  if(!bar||!fill)return;
+  if(!s.enabled||!autoScanNextRunAt){
+    bar.classList.add('off');
+    fill.style.width='0%';
+    if(wrap){wrap.classList.add('off');wrap.style.setProperty('--ring-deg','360deg');}
+    updateQuickAutoButton();
+    updateAutoScanState();
+    return;
+  }
+  bar.classList.remove('off');
+  const interval=autoScanIntervalMs();
+  const remaining=Math.max(0,autoScanNextRunAt-Date.now());
+  const pct=Math.max(0,Math.min(100,(remaining/interval)*100));
+  fill.style.width=pct.toFixed(2)+'%';
+  const deg=Math.max(0,Math.min(360,(remaining/interval)*360));
+  if(wrap){wrap.classList.remove('off');wrap.style.setProperty('--ring-deg',deg.toFixed(2)+'deg');}
+  updateQuickAutoButton();
+  updateAutoScanState();
+}
+function clearAutoScanTimers(){
+  if(autoScanTimer){clearInterval(autoScanTimer);autoScanTimer=null}
+  if(autoScanProgressTimer){clearInterval(autoScanProgressTimer);autoScanProgressTimer=null}
+}
+function setupAutoScanTimer(){
+  clearAutoScanTimers();
+  const s=getAutoScanSettings();
+  if(!s.enabled){
+    autoScanNextRunAt=null;
+    updateAutoScanProgress();
+    updateFloatingBars();
+    return;
+  }
+  const intervalMs=autoScanIntervalMs();
+  autoScanNextRunAt=Date.now()+intervalMs;
+  autoScanTimer=setInterval(async()=>{
+    autoScanNextRunAt=Date.now()+intervalMs;
+    await runScanner(true);
+    autoScanNextRunAt=Date.now()+intervalMs;
+    updateAutoScanProgress();
+  },intervalMs);
+  autoScanProgressTimer=setInterval(updateAutoScanProgress,100);
+  updateAutoScanProgress();
+  updateFloatingBars();
+}
+function triggerVibrationAlert(){
+  try{
+    if(!('vibrate' in navigator)){
+      updateAutoScanState('Vibration not supported by this browser/device.');
+      return false;
+    }
+    // Longer pattern improves reliability on Android devices that ignore very short pulses.
+    const ok=navigator.vibrate([350,120,350,120,650]);
+    setTimeout(()=>{try{navigator.vibrate([180,80,180])}catch(e){}},900);
+    if(ok===false){
+      updateAutoScanState('Vibration request was rejected by the browser/device.');
+      return false;
+    }
+    return true;
+  }catch(e){
+    updateAutoScanState('Vibration failed: '+e.message);
+    return false;
+  }
+}
+function testVibrationOnly(){
+  const ok=triggerVibrationAlert();
+  alert(ok?'Vibration request sent. If you did not feel it, check Android vibration settings, Chrome site permissions, battery saver, and DND/silent mode.':'Vibration is not available or was blocked on this device/browser.');
+}
+function playNewBetSound(){
+  try{
+    const AudioContext=window.AudioContext||window.webkitAudioContext;
+    if(!AudioContext)return;
+    const ctx=new AudioContext();
+    const gain=ctx.createGain();
+    gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.18,ctx.currentTime+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.42);
+    gain.connect(ctx.destination);
+    [660,880].forEach((freq,idx)=>{
+      const osc=ctx.createOscillator();
+      osc.type='sine';
+      osc.frequency.setValueAtTime(freq,ctx.currentTime+idx*0.13);
+      osc.connect(gain);
+      osc.start(ctx.currentTime+idx*0.13);
+      osc.stop(ctx.currentTime+idx*0.13+0.18);
+    });
+    setTimeout(()=>ctx.close(),700);
+  }catch(e){}
+}
+function triggerNewBetAlerts(rows){
+  const s=getAutoScanSettings();
+  if(s.sound)playNewBetSound();
+  if(s.vibrate!==false)triggerVibrationAlert();
+  if('Notification' in window && Notification.permission==='granted'){
+    new Notification(`${rows.length} new valuebet${rows.length===1?'':'s'}`,{body:rows.slice(0,3).map(r=>`${r.Bookmaker}: ${r.Event} ${fmtPct(r.EV)}`).join('\n'),tag:'valuebet-new-bets'});
+  }
+}
+
+async function runScannerHealthCheck(){
+  const s=getSettings(); const box=qs('settingsStatus');
+  if(!s.apiKey){box.innerHTML='<span class="health-bad">Missing API key.</span>';return;}
+  box.innerHTML='Running scanner health check...';
+  const rows=[]; const cls=(ok,warn=false)=>ok?'health-ok':warn?'health-warn':'health-bad';
+  function row(label,val,c=''){rows.push(`<div class="health-row"><b>${label}</b><span class="${c}">${val}</span></div>`)}
+  try{
+    const bms=s.bookmakers||[]; row('Selected bookmakers', bms.length?escapeHtml(bms.join(', ')):'None selected', bms.length?'health-ok':'health-bad');
+    row('Selected sports', (s.sports||[]).length, (s.sports||[]).length?'health-ok':'health-warn');
+    row('Market groups', (s.markets||[]).length + ' broad groups', (s.markets||[]).length?'health-ok':'health-warn');
+    row('Detected markets allowed', (s.detectedMarketsSelected||[]).length, 'health-ok');
+    row('Hidden bets', getHiddenKeys().length, getHiddenKeys().length?'health-warn':'health-ok');
+    row('Tracked bets', getTracker().length, 'health-ok');
+    if(!bms.length){box.innerHTML='<div class="health-list">'+rows.join('')+'</div>';return;}
+    const bm=bms[0];
+    const url=`${BASE_URL}/value-bets?bookmaker=${encodeURIComponent(bm)}&apiKey=${encodeURIComponent(s.apiKey)}&includeEventDetails=true`;
+    const res=await fetch(url);
+    row('API response test', `${res.status} ${res.ok?'OK':'Error'}`, res.ok?'health-ok':'health-bad');
+    if(res.ok){const data=await res.json();row(`Raw valuebets for ${escapeHtml(bm)}`, Array.isArray(data)?data.length:'Unexpected response', Array.isArray(data)?'health-ok':'health-warn');}
+  }catch(e){row('Health check error', escapeHtml(e.message||String(e)), 'health-bad');}
+  box.innerHTML='<div class="health-list">'+rows.join('')+'</div>';
+}
+
+function testNewBetAlert(){
+  const fake=[{Bookmaker:'Test',Event:'Example Match',EV:.071,Market:'Moneyline',Selection:'Home',LinePlayer:'',Odds:2.10,OddsToBeat:1.96,Sport:'Football',SportSlug:'football'}];
+  triggerNewBetAlerts(fake);
+  showNewBetPopup(fake,'Test alert preview');
+}
+let deferredInstallPrompt=null;
+window.addEventListener('beforeinstallprompt',(event)=>{
+  event.preventDefault();
+  deferredInstallPrompt=event;
+  updatePwaInstallButton();
+});
+window.addEventListener('appinstalled',()=>{
+  deferredInstallPrompt=null;
+  updatePwaInstallButton('Installed as app.');
+});
+function updatePwaInstallButton(msg=null){
+  const btn=qs('installPwaBtn');
+  const hint=qs('pwaInstallHint');
+  if(!btn)return;
+  if(deferredInstallPrompt){btn.classList.add('pwa-ready');btn.textContent='Install app';}
+  else{btn.classList.remove('pwa-ready');btn.textContent='Install app';}
+  if(hint&&msg)hint.textContent=msg;
+}
+async function installPwa(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice.catch(()=>null);
+    deferredInstallPrompt=null;
+    updatePwaInstallButton();
+    return;
+  }
+  alert('To install on Android: host this folder over HTTPS, open it in Chrome, then tap Chrome menu → Add to Home screen. If Chrome shows an install prompt, this button will use it automatically.');
+}
+function registerServiceWorker(){
+  if(!('serviceWorker' in navigator))return;
+  if(location.protocol!=='https:' && location.hostname!=='localhost')return;
+  navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+}
+
+function requestNotificationPermission(){
+  if(!('Notification' in window)){alert('Browser notifications are not supported here. The in-app popup will still work.');return}
+  Notification.requestPermission().then(p=>alert(p==='granted'?'Browser notifications enabled.':'Notification permission was not granted.'));
+}
+function reasonLabel(reason){const labels={sport:'Sport filter',market:'Market filter',ev:'EV filter',no_ev:'No EV',error:'Parse error'};return labels[reason]||reason||'Unknown'}
+let currentRejectedBookmaker=null;
+let currentRejectedReason='';
+function closeRejectedPopup(){qs('rejectedPopup')?.classList.remove('show')}
+function rejectedRowsForBookmaker(bookmaker){const saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rejected":[],"stats":[]}');return (saved.rejected||[]).filter(r=>norm(r.Bookmaker)===norm(bookmaker)).sort((a,b)=>(num(b.EV)??-999)-(num(a.EV)??-999)||(num(b.Odds)??0)-(num(a.Odds)??0))}
+function setRejectedReasonFilter(reason){currentRejectedReason=reason||'';renderRejectedPopupContent()}
+function rejectedReasonChipHtml(reason,label,count){const active=(reason||'')===currentRejectedReason;return `<button class="reason-filter-btn ${active?'active':''}" onclick="setRejectedReasonFilter('${jsStr(reason||'')}')">${escapeHtml(label)} <b>${count}</b></button>`}
+function syncRejectedScrollbars(){const top=qs('rejectedScrollTop'),wrap=qs('rejectedWrap'),inner=qs('rejectedScrollTopInner');if(!top||!wrap||!inner)return;const table=wrap.querySelector('table');inner.style.width=(table?table.scrollWidth:wrap.scrollWidth)+'px';top.onscroll=()=>{wrap.scrollLeft=top.scrollLeft};wrap.onscroll=()=>{top.scrollLeft=wrap.scrollLeft}}
+function renderRejectedPopupContent(){
+  const bookmaker=currentRejectedBookmaker;
+  const saved=JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{"rejected":[],"stats":[]}');
+  const allRows=rejectedRowsForBookmaker(bookmaker);
+  const stat=(saved.stats||[]).find(x=>norm(x.bookmaker)===norm(bookmaker));
+  const rows=currentRejectedReason?allRows.filter(r=>norm(r.Reason||'unknown')===norm(currentRejectedReason)):allRows;
+  qs('rejectedPopupTitle').textContent=`${bookmaker}: filtered-out analysis`;
+  qs('rejectedPopupSubtitle').textContent=stat?`Returned ${stat.returned||0}, kept ${stat.kept||0}, filtered out ${allRows.length}. Showing ${rows.length}, sorted by highest EV.`:`Filtered out ${allRows.length}. Showing ${rows.length}, sorted by highest EV.`;
+  if(!allRows.length){qs('rejectedPopupBody').innerHTML='<div class="result-update-note">No filtered-out rows stored for this bookmaker in the latest scan. If the chip showed 0/0, the API returned nothing raw for that bookmaker.</div>';return;}
+  const reasonCounts=countBy(allRows,r=>r.Reason||'unknown');
+  const reasonChips=[rejectedReasonChipHtml('','All',allRows.length)].concat(reasonCounts.map(([reason,count])=>rejectedReasonChipHtml(reason,reasonLabel(reason),count))).join('');
+  const byMarket=countBy(rows,r=>r.Market);
+  const chips=`<div class="rejected-controls"><span class="scan-summary-topic">Reason filter:</span>${reasonChips}</div><div class="scan-summary-section"><span class="scan-summary-topic">Markets in current view:</span>${summaryChipsHtml(byMarket,12)}</div><div class="rejected-toolbar-note">Click a reason chip above, or click a reason inside the table, to filter this window. Use the horizontal scrollbar directly below to move sideways without scrolling to the bottom.</div>`;
+  const table=`<div id="rejectedScrollTop" class="rejected-scroll-top"><div id="rejectedScrollTopInner" class="rejected-scroll-top-inner"></div></div><div id="rejectedWrap" class="rejected-wrap synced"><table class="rejected-table"><thead><tr><th>Reason</th><th>EV</th><th>Sport</th><th>League</th><th>Event</th><th>Market</th><th>Line</th><th>Selection</th><th>Odds</th><th>Link</th></tr></thead><tbody>${rows.map(r=>{const reason=clean(r.Reason||'unknown'); const lineVal=displayLineValue(r); return `<tr><td class="reason-cell" onclick="setRejectedReasonFilter('${jsStr(reason)}')"><span class="rejected-reason ${escapeHtml(reason)}">${escapeHtml(reasonLabel(reason))}</span></td><td class="ev">${r.EV==null?'':fmtPct(r.EV)}</td><td>${sportDisplayHtml(r)}</td><td>${leagueDisplayHtml(r.Country,r.League)}</td><td>${escapeHtml(r.Event)}</td><td>${marketPillHtml(r.Market)}${r.RawMarket&&r.RawMarket!==r.Market?`<div class="tiny">raw: ${escapeHtml(r.RawMarket)}</div>`:''}</td><td>${linePillHtml(lineVal)}</td><td>${selectionPillHtml(r.Selection,'',r.Market)}</td><td>${fmt2(r.Odds)}</td><td>${r.BookmakerLink?`<a class="link" target="_blank" href="${escapeHtml(r.BookmakerLink)}">Open</a>`:'No link'}</td></tr>`}).join('')}</tbody></table></div>`;
+  qs('rejectedPopupBody').innerHTML=chips+table;
+  setTimeout(syncRejectedScrollbars,0);
+}
+function openRejectedPopup(bookmaker){currentRejectedBookmaker=bookmaker;currentRejectedReason='';renderRejectedPopupContent();qs('rejectedPopup')?.classList.add('show');}
+function closeResultUpdatePopup(){qs('resultUpdatePopup')?.classList.remove('show')}
+function openResultUpdatePopup(){
+  qs('resultUpdatePopupBody').innerHTML=`<div class="result-update-note"><b>Important:</b> fully automatic result settlement and Pinnacle closing-line import is not reliable inside this single browser-only HTML app. Odds-comparison and results sites usually block browser-side cross-origin scraping, and scraping them may also violate their terms. <br><br>The correct version needs a small backend with an allowed data source, for example a sports-results API plus an odds/closing-line provider. Then this button can safely run: fetch final scores → settle open bets → fetch closing odds → calculate ROI and CLV. <br><br>For now, keep using the manual edit fields for status, closing odds, and opposite closing odds. I left this button here as the future entry point for the backend-powered update.</div>`;
+  qs('resultUpdatePopup')?.classList.add('show');
+}
+function closeNewBetPopup(){qs('newBetPopup')?.classList.remove('show')}
+function showNewBetPopup(rows,title='New valuebets found'){
+  qs('newBetPopupTitle').textContent=`${rows.length} new valuebet${rows.length===1?'':'s'}`;
+  qs('newBetPopupSubtitle').textContent=title;
+  qs('newBetPopupBody').innerHTML=rows.slice(0,12).map((r,i)=>`<div class="newbet"><div class="newbet-title">${fmtPct(r.EV)} EV · ${escapeHtml(r.Event)}</div><div>${bookmakerBadgeHtml(r.Bookmaker)} ${sportDisplayHtml(r)}</div><div class="tiny">${escapeHtml(r.Market)} · ${displaySelectionText(r.Selection,r.Market,r.LinePlayer)} · Odds ${fmt2(r.Odds)} · Min. Odds ${fmt2(r.OddsToBeat)}</div><div class="newbet-actions">${r.BookmakerLink?`<a class="btn secondary" target="_blank" href="${escapeHtml(r.BookmakerLink)}">Open bookie</a>`:''}<button class="btn secondary" onclick="hideScanRow(${(JSON.parse(localStorage.getItem(STORAGE_SCAN)||'{\"rows\":[]}').rows||[]).findIndex(x=>betKeyFromScanRow(x)===betKeyFromScanRow(r))}); this.closest('.newbet').remove();">Hide</button></div></div>`).join('')+(rows.length>12?`<div class="tiny">+${rows.length-12} more in the scanner.</div>`:'');
+  qs('newBetPopup')?.classList.add('show');
+  if('Notification' in window && Notification.permission==='granted'){
+    new Notification(`${rows.length} new valuebet${rows.length===1?'':'s'}`,{body:rows.slice(0,3).map(r=>`${r.Bookmaker}: ${r.Event} ${fmtPct(r.EV)}`).join('\n')});
+  }
+}
+function exportBackupJson(){
+  const backup={version:'v34',createdAt:nowIso(),settings:getSettings(),tracker:getTracker(),hiddenKeys:getHiddenKeys(),autoScan:getAutoScanSettings(),scan:JSON.parse(localStorage.getItem(STORAGE_SCAN)||'null')};
+  downloadBlob(JSON.stringify(backup,null,2),'valuebet_tracker_backup.json','application/json');
+}
+function triggerImportBackup(){qs('backupImportFile').click()}
+function importBackupJson(event){
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(data.settings)setSettings(data.settings);
+      if(Array.isArray(data.tracker))setTracker(data.tracker);
+      if(Array.isArray(data.hiddenKeys))setHiddenKeys(data.hiddenKeys);
+      if(data.autoScan)setAutoScanSettings(data.autoScan);
+      if(data.scan)localStorage.setItem(STORAGE_SCAN,JSON.stringify(data.scan));
+      renderSettings();renderScannerResults();renderTracker();loadAutoScanSettings();registerServiceWorker();
+      alert('Backup imported successfully.');
+    }catch(e){alert('Import failed: '+e.message)}
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+function downloadBlob(content,name,type){let blob=new Blob([content],{type});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+renderSettings();renderScannerResults();renderTracker();loadAutoScanSettings();registerServiceWorker();
+</script>
+</body>
+</html>
